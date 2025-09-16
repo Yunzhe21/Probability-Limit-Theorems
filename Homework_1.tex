@@ -1,0 +1,70 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[all]{xy}
+
+
+\usepackage{amsmath,amsthm,amssymb,color,latexsym}
+\usepackage{geometry}        
+\geometry{letterpaper}    
+\usepackage{graphicx}
+
+\newcommand{\legendre}[2]{\ensuremath{\left( \frac{#1}{#2} \right) }}
+\newtheorem{problem}{Problem}
+
+\newenvironment{solution}[1][\it{Solution}]{\textbf{#1. } }{$\square$}
+
+
+\begin{document}
+\noindent Probability Limit Theorems \hfill Assignment 1\\
+Yunzhe Zheng. (2025/09/29)
+
+\hrulefill
+
+\begin{problem}
+    Show that the following sets of subsets of $\mathbb{R}$ generates the same $\sigma$-algebra:
+    $$
+        B:=\{(a, b): a<b\}, B_1:=\{(a,b]: a<b\}, B_2:=
+        \{(-\infty, b]: b\in\mathbb{R}\}
+    $$
+\end{problem}
+
+\textbf{Proof:} To show that $\mathcal{B}:=\sigma(B)=\sigma(B_1)=:\mathcal{B}_1$. For any $(a,b)\in B$, $(a, b)=\bigcup_{n}(a, b-\frac{1}{n}]$, where $n$ choose sufficiently large such that $a<b-\frac{1}{n}$, thus $\mathcal{B}\subseteq\mathcal{B}_1$. Conversely, For any $(a,b]\in B_1$, $(a,b]=\bigcap_{n\in\mathbb{N}}\left(a, b+\frac{1}{n}\right)$, then $\mathcal{B}_1\subseteq\mathcal{B}$, hence $\mathcal{B}=\mathcal{B}_1$.\\ 
+\indent To show $\mathcal{B}_1=\mathcal{B}_2$. Similarly, for any $(a,b]\in B_1$, $(a,b]=(-\infty, b]\cup(-\infty, a]^c$, thus $\mathcal{B}_1\subseteq\mathcal{B}_2$. Conversely, for $(-\infty, b]\in B_2$, $(-\infty, b]=\bigcup_n (-n, b]$, where $-n$ is chosen such that $-n<b$, thus $\mathcal{B}_2\subseteq\mathcal{B}_1$, hence $\mathcal{B}_1=\mathcal{B}_2$. \qed
+\\
+\begin{problem}
+    Show that every open subset $G$ of $\mathbb{R}$ is a disjoint countable union of open intervals.
+\end{problem}
+
+\textbf{Proof:} For fixed $x\in G$, consider the largest interval such that it is contained in $G$, namely $I_x=(a, b)$ where 
+$$
+    a =\inf\{y: y<x, y\in G\}, \ b=\sup\{z: x<z,z\in G\}
+$$ 
+then $G=\bigcup_{x\in G}I_x$. Notice that for $I_x,I_y$ defined as above for $x\neq y$ such that $I_x\cap I_y\neq\emptyset$, for $x$, $I_x\cup I_y$ would be a larger interval containing $x$ and contained in $G$, hence $I_x=I_y$, indicating that $\{I_x: x\in G\}$ are collection of disjoint open intervals automatically. Finally, we are left to show that it is countable union. Indeed, for each $I_x$ (assuming the Axiom of Choice implicitly makes the specification valid), it contains a rational number, then we create a one-to-one correspondence between $\{I_x:x\in G\}$ and a subset of $\mathbb{Q}$, suggesting that is indeed a countable union. \qed
+\\ 
+\begin{problem}
+    Let $\tau$ be the set of all open subsets of $\mathbb{R}$, and let the $\pi$-system
+    $$
+        \pi(\mathbb{R}):=\{(-\infty,x]: x\in\mathbb{R}\}
+    $$ Deduce from Problem 1 and 2 that $\mathcal{B}(\mathbb{R}):=\sigma(\tau)=\sigma(\pi(\mathbb{R}))$.
+\end{problem}
+
+\textbf{Proof:} Thanks to conclusion in Problem 1, $\sigma(\pi(\mathbb{R}))=\sigma(\{(a, b): a<b\})$, then we are left to show that $\sigma(\tau)=\sigma(\{(a,b): a < b\})$. $\sigma(\{(a,b): a<b\})\subseteq \sigma(\tau)$ is immediate since $\{(a,b): a<b\}\subseteq \tau$. Conversely, applying conclusion in Problem 2, we see that for any open subset $G\in\tau$, $G=\bigcup_{i=1}^{n}I_i$ for disjoint sequence of open intervals $\{I_i\}$, thus $\sigma(\tau)\subseteq \sigma(\{(a, b): a<b\})$. To conclude, $\mathcal{B}(\mathbb{R})=\sigma(\pi(\mathbb{R}))$. \qed
+\\
+\begin{problem}
+    Let $\mu$ be a finite-valued, additive set function on an algebra $\mathcal{A}$. Show that $\mu$ is countably additive iff for any sequence $\{A_n\}_{n\in\mathbb{N}}\subseteq\mathcal{A}$ with
+    $$
+        A_n\supseteq A_{n+1} \ \forall n\in\mathbb{N}, \ \bigcap_{n\in\mathbb{N}}A_n=\emptyset\implies \mu(A_n)\to0\text{ as } n\to\infty.
+    $$
+\end{problem}
+
+\textbf{Proof:} Suppose that $\mu$ is countably additive, and consider $\{A_n^c\}$, then $A_n^c\subseteq A_{n+1}^c$. Define $B_i=A_{i+1}^c\setminus A_i^c$, then $\{B_i\}$ are disjoint, and 
+\begin{align*}
+    \mu\left(\bigcup_i A_{i}^c\right)=\mu\left(\bigcup_i B_i\right)=\sum\limits_i\mu\left(B_i\right)&=\lim\limits_{n\to\infty}\left(\sum\limits_{i=2}^n\left(\mu(A_i^c)-\mu(A_{i-1}^c)\right)+\mu(A_1^c)\right) \\
+    &= \lim\limits_{n\to\infty} \mu(A_n^c)
+\end{align*}
+Now, consider $E_i=A_1\setminus A_i$, then
+$$
+    \mu\left(\bigcup_i B_i\right)
+$$
+
+\end{document}
