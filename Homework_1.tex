@@ -16,7 +16,7 @@
 
 \begin{document}
 \noindent Probability Limit Theorems \hfill Assignment 1\\
-Yunzhe Zheng. (2025/09/29)
+Yunzhe Zheng. (2025/09/28)
 
 \hrulefill
 
@@ -62,9 +62,121 @@ then $G=\bigcup_{x\in G}I_x$. Notice that for $I_x,I_y$ defined as above for $x\
     \mu\left(\bigcup_i A_{i}^c\right)=\mu\left(\bigcup_i B_i\right)=\sum\limits_i\mu\left(B_i\right)&=\lim\limits_{n\to\infty}\left(\sum\limits_{i=2}^n\left(\mu(A_i^c)-\mu(A_{i-1}^c)\right)+\mu(A_1^c)\right) \\
     &= \lim\limits_{n\to\infty} \mu(A_n^c)
 \end{align*}
-Now, consider $E_i=A_1\setminus A_i$, then
+Now, consider $E_i=A_1\setminus A_i$, then $E_n\subseteq E_{n+1}$
 $$
-    \mu\left(\bigcup_i B_i\right)
+    \mu\left(\bigcup_i E_i\right)=\lim\limits_{i\to\infty}\mu\left(E_i\right)=\lim\limits_{i\to\infty}(\mu(A_1)-\mu(A_i))=\mu(A_1)-\lim\limits_{i\to\infty}\mu(A_i )
 $$
+while at the same time, 
+$$
+    \mu\left(\bigcup_i E_i\right)=\mu\left(A_1\cap \left(\bigcap_i A_i\right)^c\right)=\mu(A_1)-\mu\left(\bigcap_{i=1}^\infty A_i\right)
+$$ 
+hence 
+$$
+    0=\mu\left(\bigcap_{i=1}^\infty A_i\right)=\lim\limits_{i\to\infty}\mu(A_i)
+$$
+\\
+\indent Conversely, for $\{E_i\}$ collection of disjoint sets such that $\bigcup_{i=1}^\infty E_i\in\mathcal{A}$, consider the collection $\{A_n\}$ where $A_n=\left(\bigcup_{i=1}^\infty E_i\right)\setminus\left(\bigcup_{i=1}^nE_i\right)$, then obviously $A_n$ is decreasing and $\bigcap_{i=1}^\infty A_i=\emptyset$, then 
+\begin{align*}            \lim\limits_{n\to\infty}\mu\left(A_n\right)&=\lim\limits_{n\to\infty}\mu\left(\bigcup_{i=1}^{\infty}E_i\setminus\bigcup_{i=1}^{n}E_i\right)=\mu\left(\bigcup_{i=1}^\infty E_i\right)-\lim\limits_{n\to\infty}\mu\left(\bigcup_{i=1}^nE_i\right) \\
+&=\mu\left(\bigcup_{i=1}^\infty E_i\right)-\sum\limits_{i=1}^\infty\mu\left(E_i\right)=0
+\end{align*}
+then we obtain the countable additivity. \qed
+\\
+\begin{problem}
+    Given $\alpha<\beta$, let $\mathcal{A}$ be the algebra of finite unions of disjoint intervals of the form 
+    $$
+        A=(a_1, b_1]\cup\cdots\cup(a_n,b_n], \ \alpha\leq a_k,b_k\leq \beta, \ 1\leq k\leq n
+    $$
+    and define, for every $A\in\mathcal{A}$, $\mu(A):=\sum\limits_{i=1}^n(b_i-a_i)$. \\
+    \indent (i). Check that $\mu$ is well-defined. \\
+    \indent (ii). Prove, using Problem 4, that $\mu$ is countably additive on $\mathcal{A}$.
+\end{problem}
+
+\textbf{Proof:} (i). If $A:=\bigcup\limits_{i=1}^n(a_i, b_i]=\bigcup_{i=1}^m(a'_i, b'_i]=: A'$, then we can obtain a refined partition $\alpha\leq p_1<p_2<\cdots<p_N\leq \beta$, where $p_i$ are endpoints of $A$ and $A'$ such that $A=A'=\bigcup\limits_{i=1}^N(p_i,p_{i+1}]$
+$$
+    \mu(A)=\sum\limits_{i=1}^N(p_{i+1}-p_{i})=\mu(A')
+$$
+which proves that $\mu$ is well-defined. \\
+\indent (ii). First, finite additivity is immediate from definition of $\mu$, suppose we have collection of disjoint $\{E_i\}_{i=1}^n$ in $\mathcal{A}$, each of the form $E_i=\bigcup\limits_{i=1}^{n_i}(a_{i, k}, b_{i, k}]$, then 
+$$
+    \mu\left(\bigcup_{i=1}^n E_i\right)=\sum\limits_{i=1}^n\sum\limits_{k=1}^{n_i}(b_{i,k}-a_{i,k})=\sum\limits_{i=1}^n\mu(E_i)
+$$
+\\
+\indent Now suppose we have a decreasing sequence $\{A_n\}_{n\in\mathbb{N}}\subseteq\mathcal{A}$ such that $\mu(A_n)\geq\epsilon$ for some $\epsilon>0$, we aim to find a decreasing bounded subsets $B_n\in\mathcal{A}$ such that $\overline{B_n}\subseteq A_n$ with $\bigcap_{n\in\mathbb{N}}B_n\neq\emptyset$. For each $A_n=\bigcup\limits_{i=1}^n(a_{n,i}, b_{n, i}]$, we can shrink each interval by a small margin to $C_n=\bigcup\limits_{i=1}^n(a_{n,i}+\delta_{n,i},b_{n,i}]$ such that $\mu(A_n\setminus C_n)\leq \epsilon/2^{n+1}$, and define $B_n=\bigcap\limits_{i=1}^n C_n$, then $B_n$ is decreasing sequence of bounded subsets, we also have 
+$$
+    \mu(A_n\setminus B_n)\leq \mu\left(\bigcup_{i=1}^n(A_n\setminus C_i)\right)\leq \mu\left(\bigcup_{i=1}^n(A_i\setminus C_i)\right)\leq \sum\limits_{i=1}^\infty \epsilon/2^i+1=\epsilon/2
+$$
+then 
+$$
+    \mu(B_n)=\mu(A_n)-\epsilon/2\geq \epsilon/2
+$$
+Also, for each $B_n$, $\overline{B_n}\subseteq A_n$, since each $\overline{C_n}\subseteq A_n$. $\{\overline{B_n}\}$ is the collection of decreasing compact sets, then the intersection of them is nonempty, thus $\bigcap\limits_{i=1}^\infty A_n$ is nonempty. Finally, we can apply Problem 4 to obtain that $\mu$ is countable additive. \qed  
+\\
+\begin{problem}
+    Using Problem 5, prove that there exists, for all $\alpha, \beta\in\mathbb{R}$, a unique Borel measure $\mu$ on $(\alpha,\beta]$ such that, for all $a,b\in (\alpha, \beta]$ with $a<b$, 
+    $$
+        \mu((a,b])=b-a
+    $$
+    Prove also there exists a unique such measure on the whole of $\mathbb{R}$
+\end{problem}
+
+\textbf{Proof:} From Problem 5 we've prove that $\mu$ is countable additive on algebra $\mathcal{A}$ with $\mu(\mathcal{A})=\beta-\alpha<\infty$, then by Caratheodory's extension theorem, there exists a unique Borel measure on $(\alpha,\beta]$. \\
+\indent For the case of $\mathbb{R}$, we consider the algebra $\mathcal{A}$ generated by 
+$$
+    \varepsilon=\begin{cases}
+  (a,b] & \text{ for } -\infty\leq a<b<+\infty \\
+  (a,+\infty) & 
+\end{cases}
+$$
+and the measure on $\mathcal{A}$ is defined similarly, $\mu((a,b])=b-a$, $\mu((a, +\infty))=\infty$, and $\mu((-\infty, a])=\infty$, then we are left to prove that $\mu$ is countable additive. Suppose we have $\{A_i\}$ collection of disjoint elements in $\mathcal{A}$ and that $A:=\bigcup_{i=1}^{\infty}A_i\in\mathcal{A}$, then if $A$ is unbounded, then the countable additivity is immediate from definition, otherwise, $A=\bigcup_{i}^n(a_i,b_i]$, then by the countable additivity for $\mu$ restricted on bounded $A$ with finite measure, we conclude that $\mu$ is indeed countable additive. Then by Caratheodory extension theorem, there exists a measure. \\
+\indent Further, since $\varepsilon\cup\{\emptyset\}$ is a $\pi$-system, the measure is indeed unique. \qed
+\\   
+\begin{problem}
+    Given $A_1, \dots, A_m$ subsets of a nonempty set $E$, let $\mathcal{A}:=\{A_1, \dots, A_m\}$ and let $\varepsilon:=\sigma(\mathcal{A})$. For $\epsilon\in\{0,1\}^m$, define $A^\epsilon:= A_1^{\epsilon_1}\cap\cdots\cap A_m^{\epsilon_m}$ where $A_k^0=A_k^c$, $A_k^1=A_k$. \\
+    \indent (i). Prove that 
+    $$
+        A\in\varepsilon\iff A=\bigcup_{\epsilon\in I}A^\epsilon \text{ for some } I\subseteq\{0,1\}^m
+    $$ \\
+    \indent(ii). Deduce that, for all $\epsilon\in\{0,1\}^m$ and $A\in\varepsilon$, either $A\cap A^\epsilon=\emptyset$ or $A^\epsilon\subseteq A$. The subsets $A^\epsilon$ are called atoms of $\varepsilon$. \\
+    \indent (iii). Deduce that, if $f:(E,\varepsilon)\to(\mathbb{R}, \mathcal{B}(\mathbb{R}))$ is measurable, then there exist $a_\epsilon\in\mathbb{R}$, $\epsilon\in\{0,1\}^m$, such that 
+    $$
+        f=\sum\limits_{\epsilon\in\{0,1\}^m}a_\epsilon\textbf{1}_{A^\epsilon}
+    $$
+\end{problem}
+
+\textbf{Proof:} (i). The direction from right to left is trivial from the definition of $\sigma$-algebra. Conversely, we only need to show that the collection $\mathcal{C}=\{\bigcup_{\epsilon\in I}A^\epsilon: I\subseteq\{0,1\}^m\}$ is a $\sigma$-algebra. Indeed, $\emptyset=\bigcup_{\epsilon\in\emptyset}A^\epsilon$ and $E=\bigcup_{\epsilon\in\{0,1\}^m} A^\epsilon$. For $F=\bigcup_{\epsilon\in I}A^{\epsilon}$, $F^c=\bigcup_{\epsilon\in\{0,1\}^m\setminus I}A^\epsilon\in\mathcal{C}$, since for each $\epsilon_1\neq\epsilon_2$, $A^{\epsilon_2}\cap A^{\epsilon_2}=\emptyset$. Now for countable union, notice that since the cardinality of $\{0,1\}^m$ is finite, we are essentially dealing with finite union, and finite union is obviously satisfied by the definition. Finally, since $\varepsilon$ is the smallest $\sigma$-algebra generated by $\mathcal{A}$, left to right implication is proved. \\
+\indent (ii). For $\epsilon\in\{0,1\}^m$ and $A\in\varepsilon$, we know from previous result that we may write
+$$
+    A=\bigcup_{\epsilon\in I} A^\epsilon \text{ for some } I\subseteq\{0,1\}^m
+$$
+If $\epsilon'\in I$, then $A^{\epsilon'}\subseteq\bigcup\limits_{\epsilon\in I}A^\epsilon=A$. Otherwise if $\epsilon'\notin I$, we know that, as we also have mentioned in previous proof, from definition if $\epsilon_1\neq\epsilon_2\in \{0, 1\}^m$ then $A^{\epsilon_1}\cap A^{\epsilon_2}=\emptyset$, that's because there exists some $A_i$ such that $A^{\epsilon_1}\subseteq A_i$ and $A^{\epsilon_2}\subseteq A_i^c$. Thus $A\cap A^{\epsilon'}=\emptyset$. \\
+\indent (iii). Since $f$ is measurable, then consider $H_r:=\{x\in E: f(x)>r\}\in\varepsilon$, then according to conclusion part (ii), we must have either $H_{r}\cap A^\epsilon=\emptyset$ or $H_{r}\supseteq A^\epsilon$. In other word, for any $x,y\in A^\epsilon$, $f(x),f(y)$ must be either both greater than $r$ or both less or equal to $r$, and since the choice of $r$ can be arbitrary, we have $f(x)=f(y)$, indicating that $f$ is constant on each atom of $\varepsilon$. Finally, since $A^\epsilon$ is a partition of $E$, we write 
+$$
+    f=\sum\limits_{\epsilon\in\{0,1\}^m}a_\epsilon\textbf{1}_{A^\epsilon}
+$$
+where $a_\epsilon$ is the constant value on atom $A^\epsilon$. \qed
+\\
+\begin{problem}
+    (i). Suppose that $A_1, A_2, \dots$ are independent and $\mathbb{P}(A_n)<1$ for all $n\geq 1$. Prove that 
+    $$
+        \mathbb{P}(A_n\text{ i.o.})=1 \iff \mathbb{P}\left(\bigcup_{n=1}^\infty A_n\right)=1
+    $$ \\
+    (ii). Let $X_1, X_2, \dots$ be independent random variables. Prove that 
+    $$
+        \mathbb{P}\left(\sup_{n\geq 1}X_n<\infty\right)=1 \iff \sum\limits_{n=1}^\infty\mathbb{P}(X_n>a)<\infty
+    $$
+    for some positive real number $a$.
+\end{problem}
+
+\textbf{Proof:} (i). If $\mathbb{P}(A_n\text{ i.o.})=1$, then $\mathbb{P}\left(\bigcup\limits_{m=1}^\infty\bigcap\limits_{n\geq m}A_n^c\right)=0=\sum\limits_{m=1}^\infty\mathbb{P}\left(\bigcap\limits_{n\geq m}A_n^c\right)$, thus in particular we have $\mathbb{P}\left(\bigcap\limits_{n=1}^\infty A_{n}^c\right)=0$, hence $\mathbb{P}\left(\bigcup\limits_{n=1}^\infty A_n\right)=1$. Conversely, we have 
+$$
+    \mathbb{P}\left(\bigcup_{n=1}^\infty A_n\right)=1-\mathbb{P}\left(\bigcap_{n=1}^\infty A_n^c\right)=1-\prod\limits_{n=1}^\infty (1-\mathbb{P}(A_n))=1
+$$
+we can do approximation as follows, 
+$$
+    \prod\limits_{n=1}^\infty (1-\mathbb{P}(A_n))\leq \prod\limits_{n=1}^\infty e^{-\mathbb{P}(A_n)}=e^{-\sum\limits_{n=1}^\infty\mathbb{P}(A_n)}=0
+$$
+then $\sum\limits_{n=1}^\infty\mathbb{P}(A_n)=\infty$. By Second Borel-Cantelli lemma, $\mathbb{P}(A_n\text{ i.o})=1$. \\
+\indent (ii). Suppose that $\sum\limits_{n=1}^\infty\mathbb{P}(X_n>a)=\infty$ for all $a$, then by Borel-Cantelli lemma ($\{X_n>a\}_n$ are independent since $\{X_n\}$ are independent), $\mathbb{P}(X_n>a\text{ i.o.})=1$. By the conclusion in Recitation 1, $\mathbb{P}\left(\bigcap\limits_{m=1}^\infty \{X_n>m\text{ i.o.}\}\right)=1$, then we have $\mathbb{P}(\sup_{n\geq 1} X_n=\infty)=1$, which leads to a contradiction. \\
+\indent Conversely, Since $\sum\limits_{n=1}^\infty\mathbb{P}(X_n>a)<\infty$ for some real $a$, by First Borel-Cantelli lemma, we have $\mathbb{P}(X_n>a\text{ i.o.})=0$, then almost surely there exists a $N$ such that for $n\geq N$, $X_n\leq a$, then its immediate that  $\mathbb{P}\left(\sup_{n\geq 1}X_n<\infty\right)=1$.\qed 
 
 \end{document}
