@@ -1,0 +1,81 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[all]{xy}
+
+
+\usepackage{amsmath,amsthm,amssymb,color,latexsym}
+\usepackage{geometry}        
+\geometry{letterpaper}    
+\usepackage{graphicx}
+
+\newcommand{\legendre}[2]{\ensuremath{\left( \frac{#1}{#2} \right) }}
+\newtheorem{problem}{Problem}
+
+\newenvironment{solution}[1][\it{Solution}]{\textbf{#1. } }{$\square$}
+
+
+\begin{document}
+\noindent Probability Limit Theorems \hfill Recitation 2\\
+Yunzhe Zheng. (2025/09)
+
+\hrulefill
+
+\begin{problem}
+    Let $\Omega=\mathbb{R}$ and let $\mathcal{F}$ be the collection of all $A\subseteq\Omega$ such that either $A$ or $A^c$ is countable. Define 
+    $$
+        \mathbb{P}(A)=\begin{cases}
+  0& \text{ if } A \text{ is countable}\\
+  1& \text{ if } A^c \text{ is countable}
+\end{cases}
+    $$
+    Show that $(\Omega, \mathcal{F}, \mathbb{P})$ forms a probability space.
+\end{problem}
+
+\textbf{Proof:} (Step 1: Show that $\mathcal{F}$ is indeed a $\sigma$-algebra). Firstly, $\emptyset\in\mathcal{F}$ is trivial, and $\Omega\in\mathcal{F}$ since its complement $\emptyset$ is countable. Secondly, for any $F\in\mathcal{F}$, if $F$ is countable, then $F^c\in\mathcal{F}$ since $(F^{c})^c=F$ is countable; otherwise if $F^c$ is countable, then $F^c\in\mathcal{A}$ trivially. Finally, for sequence of disjoint $\{A_i\}\in\mathcal{F}^\mathbb{N}$, if all $A_i$'s are countable, there is nothing to prove, otherwise if for some $j\in\mathbb{N}$, $A_j^c$ is countable, then consider $\left(\bigcup\limits_{i=1}^\infty A_i\right)^c=\bigcap\limits_{i=1}^\infty A_i^c\subseteq A_j^c$ which is countable, hence the countable union is always in $\mathcal{F}$. \\
+\indent (Step 2: Show that $\mathbb{P}$ is indeed a probability measure). First we have $\mathbb{P}(\emptyset)=0$ as $\emptyset$ is countable. Secondly, for a sequence of disjoint $\{A_i\}\in\mathcal{F}^\mathbb{N}$, we first observe that there can only be one of them, say $A_j$, such that $A^c$ is countable, for otherwise we have $A_j$ and $A_k$, $j\neq k$, such that $A_j^c,A_k^c$ are countable and $A_j\cap A_k=\emptyset$, then $(A_j\cap A_k)^c=A_j^c\cup A_k^c=\Omega=\mathbb{R}$, which is absurd since LHS is countable and RHS is uncountable. Therefore, we have for the latter case, $\left(\bigcup\limits_{i=1}^\infty A_i\right)^c=\bigcap\limits_{i=1}^\infty A_{i}^c\subseteq A_j^c$, which is countable, and it follows that
+$$
+    \mathbb{P}\left(\bigcup_{i=1}^\infty A_i\right)=1=\sum\limits_{i=1}^\infty\mathbb{P}(A_i)
+$$
+The former case is obvious from the fact that countable union of countable sets is still countable. Finally, immediately from the definition we have $\mathbb{P}(\Omega)=1$, concluding the proof. \qed
+\\
+\begin{problem}
+    Let $(\Omega, \mathcal{F}, \mathbb{P})$ be a probability space and let $X$ be a measurable function. Define a set function $\mu$ on $(\mathbb{R}, \mathcal{B})$ by 
+    $$
+        \mu(B)=\mathbb{P}(X^{-1}(B)), \ B\in\mathcal{B}
+    $$
+    Show that $\mu$ is a probability measure. (Note: this measure is also called "image measure" or sometimes "pull-back measure".)
+\end{problem}
+
+\textbf{Proof:} Firstly, $\mu(\emptyset)=\mathbb{P}(X^{-1}(\emptyset))=\mathbb{P}(\emptyset)=0$ and $\mu(\mathbb{R})=\mathbb{P}(X^{-1}(\mathbb{R}))=\mathbb{P}(\Omega)=1$. Finally, for a sequence of disjoint $\{A_i\}_{i=1}^\infty\in\mathcal{B}^\mathbb{N}$, we know that $X^{-1}\left(\bigcup\limits_{i=1}^\infty A_i\right)=\bigcup\limits_{i=1}^\infty X^{-1}(A_i)$, then
+$$
+    \mu\left(\bigcup_{i=1}^\infty A_i\right)=\mathbb{P}\left(X^{-1}\left(\bigcup_{i=1}^\infty A_i\right)\right)=\mathbb{P}\left(\bigcup_{i=1}^\infty X^{-1}(A_i)\right)=\sum\limits_{i=1}^\infty\mathbb{P}(X^{-1}(A_i))=\sum\limits_{i=1}^\infty \mu(A_i)
+$$
+which shows that $\mu$ is indeed a probability measure. \qed
+\\
+\begin{problem}
+    Prove that, if $(A_n)_{n\geq 1}$ are independent events, then
+    $$
+        \mathbb{P}\left(\bigcap_{n=1}^\infty A_n\right)=\prod\limits_{n=1}^\infty\mathbb{P}(A_n), \text{ and } \mathbb{P}\left(\bigcup_{n=1}^\infty A_n\right)=1-\prod\limits_{n=1}^\infty(1-\mathbb{P}(A_n))
+    $$
+\end{problem}
+
+\textbf{Proof:} By the definition of independence, we have 
+$$
+    \mathbb{P}\left(\bigcap_{n=1}^N A_n\right)=\prod\limits_{n=1}^N\mathbb{P}(A_n)
+$$
+Notice that $\left\{\bigcap\limits_{n=1}^N A_n\right\}_N$ is a decreasing sequence converging to $\bigcap\limits_{n=1}^\infty A_n$, then by continuity of measure (Monotone Convergence), we have 
+$$
+    \mathbb{P}\left(\bigcap_{n=1}^\infty A_n\right)=\lim\limits_{N\to\infty}\mathbb{P}\left(\bigcap_{n=1}^N A_n\right)=\lim\limits_{N\to\infty}\prod\limits_{n=1}^N\mathbb{P}(A_n)=\prod\limits_{n=1}^\infty\mathbb{P}(A_n)
+$$
+Second equality holds immediately after what we just proved. \qed
+\\
+\begin{problem}
+    Prove that 
+    $$
+        \limsup\limits_{n\to\infty}\liminf\limits_{k\to\infty}(A_n\cap A_k^c)=0
+    $$
+\end{problem}
+
+\textbf{Proof:} From easy set theory we should see that $\limsup\limits_{n\to\infty}\liminf\limits_{k\to\infty}(A_n\cap A_k^c)=\limsup\limits_{n\to\infty}A_n\cap\liminf\limits_{k\to\infty}A_k^c=\emptyset$, as $(\limsup\limits_{n\to\infty} A_n)^c=\liminf\limits_{n\to\infty}A_n^c$. \qed
+
+\end{document}

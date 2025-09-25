@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[all]{xy}
+
+
+\usepackage{amsmath,amsthm,amssymb,color,latexsym}
+\usepackage{geometry}        
+\geometry{letterpaper}    
+\usepackage{graphicx}
+
+\newcommand{\legendre}[2]{\ensuremath{\left( \frac{#1}{#2} \right) }}
+\newtheorem{problem}{Problem}
+
+\newenvironment{solution}[1][\it{Solution}]{\textbf{#1. } }{$\square$}
+
+
+\begin{document}
+\noindent Probability Limit Theorems \hfill Recitation 1\\
+Yunzhe Zheng. (2025/09)
+
+\hrulefill
+
+\begin{problem}
+    Let $\mu$ be the finitely additive measure on a algebra $\mathcal{S}$, consider the sequence of disjoint $\{A_i\}$ in $\mathcal{S}$ such that
+    $$
+        A=\bigcup_{i=1}^\infty A_i\in \mathcal{S}
+    $$
+    then 
+    $$
+        \mu\left(\bigcup_{i=1}^\infty A_i\right)\geq \sum\limits_{i=1}^\infty\mu(A_i)
+    $$
+\end{problem}
+
+\textbf{Proof:} Since $A\supseteq\bigcup\limits_{i=1}^n A_i$, by monotonicity of measure, 
+$$
+    \mu(A)\geq\mu\left(\bigcup_{i=1}^{n}A_i\right)=\sum\limits_{i=1}^n\mu(A_i)
+$$ for any $n\in\mathbb{N}$, we just need to let $n\to\infty$ and the conclusion is obtained. \qed
+\\
+\begin{problem}
+    Consider the probability space $(\Omega, \mathcal{F}, \mathbb{P})$ and a family of measurable sets $\{A_i\}_{i=1}^\infty$ such that $\mathbb{P}(A_i)=1$, then 
+    $$
+        \mathbb{P}\left(\bigcap_{i=1}^\infty A_i\right) = 1
+    $$
+\end{problem}
+
+\textbf{Proof:} Consider 
+\begin{align}
+    \mathbb{P}\left(\left(\bigcap\limits_{i=1}^\infty A_i\right)^c\right)= \mathbb{P}\left(\bigcup_{i=1}^\infty A_i^c\right)=\sum\limits_{i=1}^\infty \mathbb{P}(A_i^c)
+\end{align}
+Since $\mathbb{P}(A_i)=1$, we have $\mathbb{P}(A_i^c)=1-\mathbb{P}(A_i)=0$, hence we obtain (1) equals $0$, which implies that $\mathbb{P}\left(\bigcap\limits_{i=1}^\infty A_i\right)=1$. \qed
+\\
+\begin{problem}
+    For a sequence of events $\{A_n\}_{n\geq 1}$ with $\lim\limits_{n\to\infty}\mathbb{P}(A_n)=1$ and $0<c<1$. Show that there exists a subsequence $n_k$ with $n_k\to\infty$ such that 
+    $$
+        \mathbb{P}\left(\bigcap_{k=1}^\infty A_{n_k}\right)>c
+    $$
+\end{problem}
+
+\textbf{Proof:} Suppose there exists some $c$ such that for any subsequence $n_k$ with $n_k\to\infty$
+$$
+    \mathbb{P}\left(\bigcap_{k=1}^\infty A_{n_k}\right)\leq c \iff \mathbb{P}\left(\bigcup_{k=1}^\infty A_{n_k}^c\right)>1-c
+$$
+Since $\lim\limits_{n\to\infty}\mathbb{P}(A_n)=1$, then $\lim\limits_{n\to\infty}\mathbb{P}(A_n^c)=0$, which means that for any $\epsilon/2^m$, $m\in\mathbb{N}$, where $\epsilon<1-c$, there exists an $N(m)$ such that for $n>N(m)$
+$$
+    \mathbb{P}(A_n^c)<\epsilon/2^m
+$$
+thus it is easy to find a subsequence $n_m$ to goes to infinity where
+$$
+    \mathbb{P}\left(\bigcup_{k=1}^\infty A_{n_k}^c\right)\leq\sum\limits_{m=1}^\infty\mathbb{P}(A_{n_m}^c)=\sum\limits_{m=1}^\infty\epsilon/2^m=\epsilon<1-c
+$$ and that leads to a contradiction. \qed
+
+\end{document}
