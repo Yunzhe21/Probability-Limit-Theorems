@@ -1,0 +1,361 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[all]{xy}
+
+
+\usepackage{amsmath,amsthm,amssymb,color,latexsym}
+\usepackage{geometry}        
+\geometry{letterpaper}    
+\usepackage{graphicx}
+
+\newcommand{\legendre}[2]{\ensuremath{\left( \frac{#1}{#2} \right) }}
+\newtheorem{problem}{Problem}
+
+\newenvironment{solution}[1][\it{Solution}]{\textbf{#1. } }{$\square$}
+
+
+\begin{document}
+\noindent Probability Limit Theorems \hfill Assignment 2\\
+Yunzhe Zheng. (2025/10/16)
+
+\hrulefill
+
+\begin{problem}
+    Let $f$ be a Borel function on $[0,1]$ with the following property: for each $\epsilon>0$, there exists $p\in(0,\epsilon)$ such that 
+    $$
+        f(x)=f(x+p), \ 0\leq x\leq 1-p
+    $$
+    The goal of this problem is to show that such $f$ is constant almost everywhere. \\
+    \indent (i). Show that it suffices to prove: For every Borel set $B\subseteq\mathbb{R}$, 
+    $$
+        \mathcal{L}(f^{-1}(B))\in\{0,1\}
+    $$
+    where $\mathcal{L}$ is the Lebesgue measure on the unit interval. \\
+    \indent (ii). For every Borel set $B$ and $x\in[0,1]$, prove that $f^{-1}(B)$ and $[0,x]$ is independent with respect to $\mathcal{L}$. Conclude that $f$ is constant almost everywhere. \\
+    \indent (iii). Give an example showing that $f$ need not be constant.
+\end{problem}
+
+\textbf{Proof:} (i). For fixed $y\in\mathbb{R}$ and consider the sequence $A_n:=(y-1/n,y+1/n)\in\mathcal{B}$ for $n\in\mathbb{N}$, then 
+$$
+    \mathcal{L}\left(f^{-1}(y)\right)=\mathcal{L}\left(f^{-1}\left(\bigcap_{n\in\mathbb{N}}A_n\right)\right)=\mathcal{L}\left(\bigcap_{n\in\mathbb{N}}f^{-1}(A_n)\right)
+$$
+by continuity of measure and the fact that each $f^{-1}(A_n)$ can only take measure 0 or 1, 
+$$
+\mathcal{L}(f^{-1}(y))=\lim\limits_{n\to\infty}\mathcal{L}(f^{-1}(A_n))
+$$ 
+equals either 0 or 1. Suppose that there exists $y_1\neq y_2$ such that $\mathcal{L}(f^{-1}(y_1))=\mathcal{L}(f^{-1}(y_2))=1$, then $\mathcal{L}(f^{-1}(y_1)\cup f^{-1}(y_2))=2>\mathcal{L}[0,1]=1$, which is absurd. Thus, we have for some unique $y\in\mathbb{R}$ such that $\mathcal{L}(f^{-1}(y))=1$, which indicates that $f$ is constant $y$ almost everywhere on $[0,1]$. \\
+\indent (ii). Fix $x\in[0,1]$ and $B$ Borel set, by property of $f$, we can find some $\epsilon$ and corresponding $p\in(0,\epsilon)$ such that $p<1-x$. Define $N$ by $Np\leq 1\leq (N+1)p$ and denote $f^{-1}(B)$ as $A$, then 
+$$
+    \mathcal{L}(A)=\mathcal{L}(A\cap [0,Np])+\mathcal{L}(A\cap [Np,1])\leq N\mathcal{L}(A\cap [0,p])+p=: N\delta+p
+$$
+Also, define $m$ by $mp\leq x\leq (m+1)p$, then 
+$$
+    \mathcal{L}(A\cap[0,x])=\mathcal{L}(A\cap[0,mp])+\mathcal{L}(A\cap [mp, x])=: m\delta+\gamma
+$$
+where $0<\gamma<p$ . Since $m=\frac{x}{p}-\left\{\frac{x}{p}\right\}$, where $\left\{\frac{x}{p}\right\}$ is the decimal part of $\frac{x}{p}$, then 
+$$
+    \left|m\delta+\gamma -\frac{x\delta}{p}\right|\leq \left|m\delta-\frac{x\delta}{p}\right|+p\leq \delta+p\leq 2p
+$$
+Also, we can do the following estimate:
+\begin{align*}
+    \left|\mathcal{L}(A)-\frac{\delta}{p}\right|&\leq\left|\mathcal{L}(A)-\frac{\mathcal{L}(A)}{Np}\right|+\left|\frac{\mathcal{L}(A)}{Np}-\frac{\delta}{p}\right| \\
+    &\leq \left|\frac{1}{NP}-1\right|+\frac{1}{N} \\
+    &\leq \frac{1}{1-p}-1+\frac{1}{N}\leq\frac{p}{1-p}+\frac{p}{1-p}\leq 2p+2p=4p
+\end{align*} 
+for $p$ small. Hence 
+$$
+    \left|\mathcal{L}(A\cap[0,x])-x\mathcal{L}(A)\right|\leq\left|m\delta+\gamma-\frac{x\delta}{p}\right|+\left|\frac{x\delta}{p}-x\mathcal{L}(A)\right|\leq 2p+4px\leq 6p
+$$
+we can let $p\to 0$ by choosing $\epsilon\to 0$ and we obtain the desired result. \\
+\indent Further, suppose that for fixed Borel set $B$, $\mathcal{L}(f^{-1}(B)\cap [0,x])=x\mathcal{L}(f^{-1}(B))$, then consider it as function $f$ of $x$, we can write alternatively
+$$
+    \int_0^x\textbf{1}_{f^{-1}(B)}d\mathcal{L}=x\cdot\mathcal{L}(f^{-1}(B))
+$$
+by taking derivative on $x$, we have for almost every $x\in[0,1]$, 
+$$
+    \textbf{1}_{f^{-1}(B)}(x)=\mathcal{L}(f^{-1}(B))
+$$
+then $\mathcal{L}(f^{-1}(B))$ can only take value $0$ or $1$, which implies that $f$ is constant. 
+\\
+\indent (iii). Consider the Dirichlet function 
+$$
+    f(x)=\begin{cases}
+  1& \text{ if } x \text{ is irrational} \\
+  0& \text{ if } x \text{ is rational}
+\end{cases}
+$$
+then for arbitrary $\epsilon>0$, there exists a rational number $p\in (0,\epsilon)$ such that for $x$ rational, $f(x)=f(x+p)=0$ since $x+p$ is also rational; for $x$ irrational, $f(x)=f(x+p)=1$ since $x+p$ remains irrational. \qed
+\\
+\begin{problem}
+    Let $F:\mathbb{R}\to[0,1]$ be a function satisfying:\\
+    \indent (i). $F$ is monotone increasing. \\
+    \indent (ii). $\lim\limits_{x\to\infty} F(x)=1$, $\lim\limits_{x\to-\infty}F(x)=0$. \\
+    \indent (iii). $F$ is right-continuous. \\
+    The goal is to prove that there exists a unique probability measure $\mu$ on $(\mathbb{R}, \mathcal{B}(\mathbb{R}))$ such that 
+    $$
+        \mu((-\infty, x])=F(x), \ \forall x
+    $$
+    \indent (i). Show that if $\mu$ exists, then it is unique. \\
+    \indent (ii). Define $G: (0,1)\to\mathbb{R}$ by
+    $$
+        G(y)=\inf\{x\in\mathbb{R}: F(x)\geq y\}
+    $$
+    Show that $G$ is non-decreasing, that 
+    $$
+        F(x)\geq y \iff x\geq G(y)
+    $$
+    and deduce that $G$ is left-continuous. \\
+    \indent (iii). Let $\Omega=(0,1)$, $\mathcal{F}=\mathcal{B}((0,1))$, and let $\mathbb{P}$ be the restriction of the Lebesgue measure. Show that $X:= G$ is a random variable on $(\Omega, \mathcal{F}, \mathbb{P})$, and that its image measure $\mu_{X}:= \mathbb{P}\circ X^{-1}$ satisfies
+    $$
+        \mu_X((-\infty,x])=\mathbb{P}(X\leq x)=F(x).
+    $$
+\end{problem}
+
+\textbf{Proof:} (i). Consider the $\pi$-system $\pi(\mathbb{R}):=\{(-\infty,x]: x\in\mathbb{R}\}$, then suppose that there exist two measure $\mu,\nu$ satisfying $\mu((-\infty, x])=\nu((-\infty, x])=F(x)$. Since two measures agree on a $\pi$-system, we have $\mu=\nu$, proving uniqueness. \\
+\indent (ii). Suppose that $F(x)\geq y$, then $x\in\{x\in\mathbb{R}:F(x)\geq y\}\geq\inf\{x\in\mathbb{R}: F(x)\geq y\}=G(y)$. Conversely, if $x\geq G(y)$, then by monotonicity of $F$, $F(x)\geq y$. Since $G$ is non-decreasing function, $\lim\limits_{y\to y_0^-}G(y)\leq G(y_0)$. If $\lim\limits_{y\to y_0^-}G(y)=G(y_0)$, then there is nothing to prove; If $\lim\limits_{y\to y_0^-}G(y)<G(y_0)$, then there exists $x$ such that $\lim\limits_{y\to y_0^-}G(y)\leq x<G(y_0)$, which means that $x\geq G(y)$ for all $y<y_0$. Hence $F(x)\geq y$ for all $y<y_0$, then $F(x)\geq y_0$, which implies $x\geq G(y_0)$, leading to a contradiction. To conclude, $G$ is left-continuous. \\
+\indent (iii). Consider $\{G(y)\leq b\}$ for arbitrary $b\in\mathbb{R}$, which can be equivalently written as $\{y: 0<y\leq F(b)\}\in\mathcal{B}((0,1))$, hence $G$ is a random variable. Further, $\mu_X((-\infty,x])=\mathbb{P}(X^{-1}(x))=\mathbb{P}((0,F(x)))=F(x)$. \qed
+\\
+\begin{problem}
+    For a fixed $d\geq 1$, let $E$ be the set of edges of the lattice $\mathbb{Z}^d$, i.e. 
+    $$
+        E:= \{\{x,y\}:x,y\in\mathbb{Z}^d\text{ and } \|x-y\|_1=1\}
+    $$
+    For a fixed $p\in [0,1]$, let $\{X_e\}_{e\in E}$ be an independent identically distributed sequence of random variables on some probability space $(\Omega, \mathcal{F}, \mathbb{P})$ satisfying
+    $$
+        \mathbb{P}(X_e=1)=p, \ \mathbb{P}(X_e=0)=1-p
+    $$
+    We say that an edge $e\in E$ is open if $X_e=1$. For fixed two vertices $x$ and $y$, an open path is a sequence of pairwise distinct vertices $x_0, x_1, \dots, x_k$ such that $x_0=x$, $x_k=y$, and for every $0\leq i<k$, $\|x_i-x_{i+1}\|_1=1$ and each edge $\{x_i, x_{i+1}\}$ is open. Two vertices $x$ and $y$ are connected if there exists an open path from $x$ to $y$. A connected open component is a maximal connected subset of open edges. \\
+    \indent For $x\in\mathbb{Z}^d$, let $C_x$ be the connected open component containing $x$. Denote by $|C_x|$ the number of vertices in $C_x$. Define the events
+    $$
+        J_x:=\{|C_x|=\infty\}, \ I:=\{\omega\in\Omega:\exists\text{ infinite open connected component in }\omega\}=\bigcup_{x\in\mathbb{Z}^d}J_x
+    $$
+    \indent (i). Prove that $I\in\mathcal{F}$ and $J_x\in\mathcal{F}$ for every $x\in\mathbb{Z}^d$. \\
+    \indent (ii). Consider the event 
+    \begin{align*}
+        I_n:=\{\text{the restriction of }(X_e)_{e\in E}\text{ to }E\setminus E_{B(n)}\text{ contains } \\ \text{an infinite open connected component}\}
+    \end{align*}
+        
+    where $E_{B(n)}$ is the set of edges in $B(n)$. Prove that $I_n=I$ and conclude 
+    $$
+        I\in\sigma(X_e: e\in E\setminus E_{B(n)}) \ \forall n\geq 1
+    $$
+    \indent (iii). Prove that $\mathbb{P}(I)\in\{0,1\}$.
+\end{problem}
+
+\textbf{Proof:} (i). Let $B(n)=[-n,n]^d\cap\mathbb{Z}^d$, and 
+$$
+    A_n=\{0\text{ is connected by an open path to the set }B(n)^c\}
+$$
+then we see that $A_n\in\mathcal{F}$ since it contains finite edges, and since $J_0=\bigcap\limits_{n}A_n$, $J_0\in\mathcal{F}$. $J_x$ is simply a translation, then $J_x\in\mathcal{F}$ for any $x\in \mathbb{Z}^d$. Further, we have $I=\bigcup\limits_{x\in\mathbb{Z}^d}J_x\in\mathcal{F}$. \\
+\indent (ii). $I_n\subseteq I$ since $(X_e)_{e\in E}$ contains an infinite open connected component in $E$ immediately after knowing that it also contains one in the restriction $E\setminus E_{B(n)}$. Conversely, Suppose $(X_e)_{e\in E}$ contains an infinite connected component in $E$, if the connected component doesn't intersect $E_{B(n)}$, then there is nothing to prove, otherwise since $E_{B(n)}$ contains finite edges at most, then consider the connected components cut by $B(n)$, one of them must be infinite, thus $I\subseteq I_n$. \\
+\indent (iii). Since $I\in\sigma(X_e: e\in E\setminus E_{B(n)})$ for all $n\geq 1$, then $I\in\bigcap\limits_{n}\sigma(X_e: e\in E\setminus E_{B(n)})$, and by Kolmogorov's 0-1 law, $\mathbb{P}(I)=\{0,1\}$. \qed
+\\
+\begin{problem}
+    Let $(X_n)_{n\in\mathbb{N}}$ be a sequence of independent identically distributed exponential random variables with parameter $\lambda$ (i.e. with distribution function $F(x)=\mathbb{P}(X_n\leq x)=1-e^{-\lambda x}$). Prove that with probability one, 
+    $$
+        \limsup_{n\to\infty}\frac{X_n}{\log n}=\frac{1}{\lambda}
+    $$
+\end{problem}
+
+\textbf{Proof:} We consider $\mathbb{P}(X_n>\mu\log n)$ for $\mu>0$, 
+$$
+    \mathbb{P}(X_n>\mu\log n)=1-\mathbb{P}(X_n\leq\mu\log n)=e^{-\lambda\mu\log n}=\frac{1}{n^{\lambda\mu}}
+$$
+By the Borel-Contelli lemma, 
+$$
+    \mathbb{P}(X_n>\mu\log n\text{ i.o.})= \begin{cases}
+  1& \text{ if } \lambda\mu\leq 1\\
+  0& \text{ if } \lambda\mu>1
+\end{cases}
+$$ 
+Pick $\mu=\frac{1}{\lambda}$, we have 
+$$
+    \mathbb{P}\left(\limsup_n\frac{X_n}{\log n}\geq \frac{1}{\lambda}\right)\geq \mathbb{P}\left(\frac{X_n}{\log n}>\frac{1}{\lambda}\text{ i.o.}\right)=1
+$$
+Now pick $\mu=\frac{1}{\lambda}+\frac{1}{k}$ for any $k\in\mathbb{N}^+$, then $\mu\lambda>1$ and 
+$$
+    \mathbb{P}\left(\frac{X_n}{\log n}>\frac{1}{\lambda}+\frac{1}{k}\text{ i.o.}\right)=0
+$$
+We also notice that 
+$$
+    \left\{\limsup_n\frac{X_n}{\log n}>\frac{1}{\lambda}\right\}\subseteq\bigcup_k\left\{\frac{X_n}{\log n}>\frac{1}{\lambda}+\frac{1}{k}\text{ i.o.}\right\}=:\bigcup_k A_k
+$$
+Since for fixed $\omega\in \left\{\limsup\limits_n\frac{X_n}{\log n}>\frac{1}{\lambda}\right\}$, suppose we have $\omega\notin\bigcup_k\left\{\frac{X_n}{\log n}>\frac{1}{\lambda}+\frac{1}{k}\text{ i.o.}\right\}$, then for all $k\in\mathbb{N}$, there exists $n$ such that for all $m> n$, $\frac{X_n}{\log n}\leq \frac{1}{\lambda}+\frac{1}{k}$, let $k\to\infty$, we have $\limsup\limits_n\frac{X_n}{\log n}\leq \frac{1}{\lambda}$. However, $\mathbb{P}(A_k)=0$ for each $k$, then $\mathbb{P}\left(\limsup\limits_{n}\frac{X_n}{\log n}>\frac{1}{\lambda}\right)=0$, implying that 
+$$
+    \mathbb{P}\left(\limsup_{n\to\infty}\frac{X_n}{\log n}=\frac{1}{\lambda}\right)=1-0=1
+$$
+\qed
+\\
+\begin{problem}
+    Let $s>1$, $\zeta(s)=\sum\limits_{n=1}^\infty n^{-s}$ and $\mathbb{P}(X=n)=\frac{n^{-s}}{\zeta(s)}$. For $m\geq 1$, let $E_m$ be the event that $X$ is divisible by $m$. \\
+    \indent (i). Prove that the events $E_p$ are independent for $p$ prime. \\
+    \indent (ii). Prove Euler's formula
+    $$
+        \frac{1}{\zeta(s)}=\prod_{p\text{ prime}}\left(1-\frac{1}{p^s}\right)
+    $$
+    probabilistically. \\
+    \indent (iii). A number $n$ is squar-free if there is no natural number $m>1$ such that $m^2$ divides $n$. Prove that the probability that $X$ is square-free is $\frac{1}{\zeta(2s)}$.
+\end{problem}
+
+\textbf{Proof:} (i). We want to show that 
+$$
+    \mathbb{P}(E_{p_1}\cap E_{p_2})=\mathbb{P}(E_{p_1})\cdot\mathbb{P}(E_{p_2})
+$$
+for any $p_1\neq p_2$ primes. We also notice that 
+$$
+\mathbb{P}(E_{p_1}\cap E_{p_2})=\sum_{n=1}^\infty\mathbb{P}(X=np_1p_2)=\sum_{n=1}^\infty\frac{(p_1p_2n)^{-s}}{\zeta(s)}
+$$
+and 
+\begin{align*}
+    \mathbb{P}(E_{p_1})\cdot\mathbb{P}(E_{p_2})=\sum_{n=1}^\infty\frac{(p_1n)^{-s}}{\zeta(s)}\sum_{n=1}^\infty\frac{(p_2n)^{-s}}{\zeta(s)}&=\frac{(p_1p_2)^{-s}}{\zeta(s)^2}\left(\sum_{n=1}^\infty n^{-s}\right)^2 \\
+    &=\sum_{n=1}^\infty\frac{(p_1p_2n)^{-s}}{\zeta(s)}
+\end{align*}
+and the conclusion follows from induction. \\
+\indent (ii). We see that 
+\begin{align*}
+    \frac{1}{\zeta(s)}&=\mathbb{P}(X=1)=\mathbb{P}\left(\bigcap_{p\text{ prime}} E_p^c\right)=\prod_{p\text{ prime}}\left(1-\mathbb{P}\left(E_p\right)\right) \\
+    &=\prod_{p\text{ prime}}\left(\sum_{n=1}^\infty\frac{n^{-s}}{\zeta(s)}-\sum_{n=1}^\infty\frac{(pn)^{-s}}{\zeta(s)}\right) \\
+    &= \prod_{p\text{ prime}}(1-p^{-s})\left(\sum_{n=1}^\infty\frac{n^{-s}}{\zeta(s)}\right) \\
+    &=\prod_{p\text{ prime}}(1-p^{-s})
+\end{align*}
+\indent (iii). Since for any natural number $m$, we can write $m=\prod_{i=1}^{n_m}p_i$ for $p_i$ primes, then $n$ is square-free is equivalent to $p^2$ doesn't divide $n$ for all $p$ prime. By using the same lines of reasoning as in sub-question (i), $E_{p^2}$ are independent for $p$ prime. 
+\begin{align*}
+    \mathbb{P}(\{\text{square-free}\})=\mathbb{P}\left(\bigcap_{p\text{ prime}}E_{p^2}^c\right)=\prod_{p\text{ prime}}(1-p^{-2s})=\frac{1}{\zeta(2s)}
+\end{align*}\qed
+\\
+\begin{problem}
+    Let $X_1, X_2, \dots$ be independent random variables uniformly distributed on $[0,1]$. Let $A_n$ be the event that a record occurs at time n, that is, 
+    $$
+        X_n>X_m \ \forall m<n
+    $$
+    Find $\mathbb{P}(A_n)$, and show that $A_1, A_2, \dots$ are independent. Deduce that, with probability one, infinitely many records occurs.
+\end{problem}
+
+\textbf{Proof:} For fixed $n$, since $X_{1}, \dots, X_n$ are independent and identically distributed, the probability of $X_n$ being the largest is $1/n=\mathbb{P}(A_n)$, since each $X_i$ has equal possibility of being the largest. Consider increasing index $1\leq i_1<i_2<\dots<i_n$, then it's sufficient to show that 
+$$
+    \mathbb{P}(A_{i_1}\cap(A_{i_2}\cap\cdots\cap A_{i_n}))=\mathbb{P}(A_{i_1})\mathbb{P}(A_{i_2}\cap\cdots\cap A_{i_n})
+$$
+Since 
+$$
+    \mathbb{P}(A_{i_1}\cap(A_{i_2}\cap\cdots\cap A_{i_n}))=\mathbb{P}(A_{i_1, k}\cap(A_{i_2}\cap\cdots\cap A_{i_n}))
+$$
+and
+$$
+    \mathbb{P}(A_{i_1})=\mathbb{P}(\{X_k>X_n, \forall 1\leq n\leq i_1, n\neq k\}:= A_{i_1, k}) \text{ for all } 1\leq k\leq i_1
+$$ 
+by the fact that $X_i$'s are i.i.d. We also notice that $A_{i_1, k}$'s are disjoint, and 
+$$
+    \mathbb{P}\left(\bigcup_{k=1}^{i_1}A_{i_1, k}\right)= 1
+$$
+thus, 
+\begin{align*}
+    \mathbb{P}(A_{i_2}\cap\cdots\cap A_{i_n})&=\mathbb{P}\left(\left(\bigcup_{k=1}^{i_1}A_{i_1, k}\right)\cap(A_{i_2}\cap\cdots\cap A_{i_{n}})\right) \\
+    &=\mathbb{P}\left(\bigcup_{k=1}^{i_1}(A_{i_1, k}\cap A_2\cap\cdots\cap A_{i_n})\right) \\
+    &=\sum_{k=1}^{i_1}\mathbb{P}(A_{i_1, k}\cap A_2\cap\cdots\cap A_{i_n}) \\
+    &= i_1\mathbb{P}(A_{i_1, k}\cap A_2\cap\cdots\cap A_{i_n})
+\end{align*}
+hence, 
+$$
+    \mathbb{P}(A_{i_1}\cap\cdots\cap A_{i_n})=\frac{1}{i_1}\mathbb{P}(A_{i_2}\cap\cdots\cap A_{i_n})=\mathbb{P}(A_{i_1})\mathbb{P}(A_{i_2}\cap\cdots\cap A_{i_n})
+$$
+and by induction, we prove independence. Finally, since 
+$$
+    \sum_{n=1}^\infty\mathbb{P}(A_n)=\sum_{n=1}^\infty\frac{1}{n}=\infty
+$$ and the fact that $A_i$'s are independent, apply Borel-Contelli lemma, infinitely many records occurs at probability 1. \qed
+\\
+\begin{problem}
+    Let $(\Omega, \mathcal{F}, \mathbb{P})$ be a probability space. Let $(X_n)$ be sequence of i.i.d random variables such that 
+    $$
+        \mathbb{P}(X=1)=\mathbb{P}(X=-1)=\frac{1}{2}
+    $$
+    Let $S_0:=0$ and, for all $n\in\mathbb{N}$, 
+    $$
+        S_n:=\sum_{k=1}^n X_k
+    $$
+    Let all $x\in\mathbb{Z}$, define
+    $$
+        A_x:= \{S_n=x\text{ for infinitely many } n\in\mathbb{N}\}
+    $$
+    $$
+        B_-:=\{\liminf_{n\to\infty} S_n=-\infty\}, B_+=\{\limsup_{n\to\infty} S_n=\infty\}
+    $$
+    \indent (i). Using Kolmogorov's 0-1 law, prove that $\mathbb{P}(B_-)\in\{0,1\}$ and $\mathbb{P}(B_+)\in\{0,1\}$. \\
+    \indent (ii). Prove $\mathbb{P}(B_+)=\mathbb{P}(B_-)$. \\
+    \indent (iii). Using the Borel-Cantelli lemma, prove that, for all $k\in\mathbb{N}$, 
+    $$
+        \limsup_{n\to\infty}(S_{n+k}-S_n)=k \text{ a.s.}
+    $$
+    \indent (iv). Deduce from (iii). that $\mathbb{P}(B_-^c\cap B_+^c)=0$, and therefore that $\mathbb{P}(B_-)=\mathbb{P}(B_+)=1$. Conclude that, for all $x\in\mathbb{Z}$, $\mathbb{P}(A_x)=1$.
+\end{problem}
+
+\textbf{Proof:} (i). 
+\begin{align*}
+    B_-=\{\liminf_{n\to\infty}S_n=-\infty\}&=\left\{\liminf_{n\to\infty}\sum_{i=k}^n X_i=-\infty\right\} \\
+    B_+=\{\limsup_{n\to\infty}S_n=\infty\}&=\left\{\limsup_{n\to\infty}\sum_{i=k}^n X_i=\infty\right\}
+\end{align*}
+then both $B_-$ and $B_+$ are in the tail $\sigma$-algebra, then by Kolmogorov's 0-1 law, $\mathbb{P}(B_-)\in\{0,1\}$ and $\mathbb{P}(B_+)\in\{0,1\}$. \\
+\indent (ii). Denote $Y=-X$, then $\mathbb{P}(Y=1)=\mathbb{P}(Y=-1)=\frac{1}{2}$, and 
+$$
+    B_-=\left\{\liminf_{n\to\infty}\sum_{i=1}^n X_i=-\infty\right\}=\left\{\limsup_{n\to\infty}\sum_{i=1}^nY_i=\infty\right\}
+$$
+then 
+$$
+    \mathbb{P}(B_-)=\mathbb{P}(B_+)
+$$
+\indent (iii). Since $\limsup_{n\to\infty}(S_{n+k}-S_n)\geq S_{n+k}-S_n$, 
+$$
+    \{\limsup_{n\to\infty}(S_{n+k}-S_n)=k\}\supseteq \{S_{n+k}-S_n=k\text{ i.o.}\}=:\{E_n\text{ i.o.}\}
+$$
+but the problem is that $E_n$'s are not independent, however, $\{E_{n+(k+1)m}\}_m$ are independent given that $X_n$'s are i.i.d, with $\mathbb{P}(E_{n+(k+1)m})=\frac{1}{2^k}$ and $\sum\limits_{m=1}^\infty\mathbb{P}(E_{n+(k+1)m})=\infty$, then by Borel-Cantelli lemma, 
+$$
+    \mathbb{P}(\{\limsup_{n\to\infty}(S_{n+k}-S_n)=k\})\geq\mathbb{P}(E_n \text{ i.o.})=1
+$$
+\indent (iv). Since $B_-^c=\bigcup_{m\in\mathbb{Z}}\{\liminf_{n}S_n=m\}=:\bigcup_{m\in\mathbb{Z}}E_m$ and $B_+^c=\bigcup_{l\in\mathbb{Z}}\{\limsup_{n}S_n=l\}=:\bigcup_{l\in\mathbb{Z}}F_l$, 
+$$
+    \mathbb{P}(B_-^c\cap B_+^c)=\mathbb{P}\left(\left(\bigcup_{m\in\mathbb{Z}}E_m\right)\cap\left(\bigcup_{l\in\mathbb{Z}}F_l\right)\right)=\mathbb{P}\left(\bigcup_{m,l\in\mathbb{Z}}(E_m\cap F_l)\right)
+$$
+Consider each $E_m\cap F_l=\{\liminf_{n}S_n=m\}\cap\{\limsup_nS_n=l\}$, and the fact that 
+\begin{align*}
+    \limsup_{n\to\infty}(S_{n+k}-S_n)\leq \limsup_{n\to\infty}S_{n+k}+\limsup_{n\to\infty}(-S_n)&=\limsup_{n\to\infty}S_{n+k}-\liminf_{n\to\infty}S_n \\
+    &= l-k
+\end{align*}
+According to (iii), take $K=l-k+1$, then $\mathbb{P}(\limsup_{n\to\infty}(S_{n+k}-S_n)\leq l-k)=0$, then by the fact that $\mathbb{P}(B_+^c)=\mathbb{P}(B_-^c)$, $\mathbb{P}(B_-^c)=0$, $\mathbb{P}(B_-)=\mathbb{P}(B_+)=1$. Since $A_x\supseteq B_-\cap B_+$, $\mathbb{P}(A_x)=1$.\qed
+\\
+\begin{problem}
+    Let $(X_n, \geq 2)$ be a sequence of independent random variables such that 
+    $$
+        \mathbb{P}(X_n=n)=\mathbb{P}(X_n=-n)=\frac{1}{2n\log n}, \ \mathbb{P}(X_n=0)=1-\frac{1}{n\log n}
+    $$
+    Set $S_n=X_2+\dots+X_n$. Prove that 
+    $$
+        \frac{S_n}{n}\to 0 \text{ in probability, but not almost surely.}
+    $$
+\end{problem}
+
+\textbf{Proof:} We first calculate the mean and variance of $S_n$, and by virtue of independence, 
+\begin{align*}
+    \mathbb{E}(S_n)&=\sum_{k=2}^n\mathbb{E}(X_k)=\sum_{k=2}^n\left(k\cdot\frac{1}{2k\log k}-k\cdot\frac{1}{2k\log k}+0\right)=0 \\
+    \text{Var}(S_n)&=\sum_{k=2}^n\text{Var}(X_k)=\sum_{k=2}^n\mathbb{E}(X_n^2)=\sum_{k=2}^n\left(k^2\cdot\frac{1}{2k\log k}+k^2\cdot\frac{1}{2k\log k}\right)=\sum_{k=2}^n \frac{k}{\log k}\\
+    \text{Var}(S_n)&=\mathbb{E}(S_{n}^2)-\mathbb{E}(S_n)^2=\mathbb{E}(S_n^2)
+\end{align*}
+Apply Chebychev inequality, 
+\begin{align*}
+    \mathbb{P}\left(\left|\frac{S_n}{n}-0\right|>\epsilon\right)&\leq \frac{1}{\epsilon^2}\int\left|\frac{S_n}{n}\right|^2d\mathbb{P}=\frac{1}{\epsilon^2n^2}\text{Var}(S_n) \\
+    &\leq \frac{1}{\epsilon^2n^2}\left(\frac{2}{\log 2}+\sum_{k=3}^{n}\frac{k}{\log k}\right) \\
+    &\leq \frac{1}{\epsilon^2n^2}\left(\frac{2}{\log 2}+\frac{(n-2)n}{\log n}\right)\to0
+\end{align*}
+as $n\to\infty$, thus proving convergence in probability. \\
+\indent For convergence a.e, notice that since $X_n$ can only take value $\pm n,0$, 
+$$
+    \left\{\frac{S_n}{n}\to0\right\}\subseteq\{X_n=0 \text{ eventually}\}=: A
+$$
+However, since 
+$$
+    \sum_{n=2}^\infty\mathbb{P}(X_n=n\text{ or } X_n=-n)=\sum_{n=2}^\infty\frac{1}{n\log n}=\infty
+$$
+then by Borel-Cantelli lemma, $\mathbb{P}(\{X_n=n\text{ or } X_n=-n\text{ i.o.}\})=\mathbb{P}(A^c)=1$, which means that
+$$
+    \mathbb{P}\left(\frac{S_n}{n}\not\to0\right)=1
+$$
+\qed
+\end{document}
