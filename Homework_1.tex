@@ -101,9 +101,9 @@ $$
     \mu\left(\bigcup_{i=1}^n E_i\right)=\sum\limits_{i=1}^n\sum\limits_{k=1}^{n_i}(b_{i,k}-a_{i,k})=\sum\limits_{i=1}^n\mu(E_i)
 $$
 \\
-\indent Now suppose we have a decreasing sequence $\{A_n\}_{n\in\mathbb{N}}\subseteq\mathcal{A}$ such that $\mu(A_n)\geq\epsilon$ for some $\epsilon>0$, we aim to find a decreasing bounded subsets $B_n\in\mathcal{A}$ such that $\overline{B_n}\subseteq A_n$ with $\bigcap_{n\in\mathbb{N}}B_n\neq\emptyset$. For each $A_n=\bigcup\limits_{i=1}^n(a_{n,i}, b_{n, i}]$, we can shrink each interval by a small margin to $C_n=\bigcup\limits_{i=1}^n(a_{n,i}+\delta_{n,i},b_{n,i}]$ such that $\mu(A_n\setminus C_n)\leq \epsilon/2^{n+1}$, and define $B_n=\bigcap\limits_{i=1}^n C_n$, then $B_n$ is decreasing sequence of bounded subsets, we also have 
+\indent Now suppose we have a decreasing sequence $\{A_n\}_{n\in\mathbb{N}}\subseteq\mathcal{A}$ such that $\mu(A_n)\geq\epsilon$ for some $\epsilon>0$, we aim to find a decreasing bounded subsets $B_n\in\mathcal{A}$ such that $\overline{B_n}\subseteq A_n$ with $\bigcap_{n\in\mathbb{N}}B_n\neq\emptyset$. For each $A_n=\bigcup\limits_{i=1}^{m_n}(a_{n,i}, b_{n, i}]$, we can shrink each interval by a small margin to $C_n=\bigcup\limits_{i=1}^{m_n}(a_{n,i}+\delta_{n,i},b_{n,i}]$ such that $\mu(A_n\setminus C_n)\leq \epsilon/2^{n+1}$, and define $B_n=\bigcap\limits_{i=1}^n C_i$, then $B_n$ is decreasing sequence of bounded subsets, we also have 
 $$
-    \mu(A_n\setminus B_n)\leq \mu\left(\bigcup_{i=1}^n(A_n\setminus C_i)\right)\leq \mu\left(\bigcup_{i=1}^n(A_i\setminus C_i)\right)\leq \sum\limits_{i=1}^\infty \epsilon/2^i+1=\epsilon/2
+    \mu(A_n\setminus B_n)\leq \mu\left(\bigcup_{i=1}^n(A_n\setminus C_i)\right)\leq \mu\left(\bigcup_{i=1}^n(A_i\setminus C_i)\right)\leq \sum\limits_{i=1}^\infty \epsilon/2^{i+1}=\epsilon/2
 $$
 then 
 $$
