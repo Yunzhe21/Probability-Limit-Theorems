@@ -1,0 +1,38 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[all]{xy}
+
+
+\usepackage{amsmath,amsthm,amssymb,color,latexsym}
+\usepackage{geometry}        
+\geometry{letterpaper}    
+\usepackage{graphicx}
+
+\newcommand{\legendre}[2]{\ensuremath{\left( \frac{#1}{#2} \right) }}
+\newtheorem{problem}{Problem}
+
+\newenvironment{solution}[1][\it{Solution}]{\textbf{#1. } }{$\square$}
+
+
+\begin{document}
+\noindent Probability Limit Theorems \hfill Recitation 3\\
+Yunzhe Zheng. (2025/09)
+
+\hrulefill
+
+\begin{problem}
+    Consider a sequence of independent Bernoulli random variables $(X_n)_{n\geq 1}$ with 
+    $$
+        \mathbb{P}(X_n=1)=p=1-\mathbb{P}(X_n=0)
+    $$
+    where $0< p\leq 1$ \\
+    \indent Let $A_n$ be the event that a run of consecutive $1$'s occurs between the $(2^{n-1}+1)$-st and $2^n$-th trails. Show that, for $p\geq 1/2$, infinitely many $A_n$ occurs almost surely.
+\end{problem}
+
+\textbf{Proof:} We consider the maximum number of blocks of length $n$, which is $\left\lfloor\frac{2^{n-1}}{n}\right\rfloor=: m$, then $\mathbb{P}(A_n)=1-(1-p^n)^m$, and we can do the following estimate
+$$
+    \mathbb{P}(A_n)=1-(1-p^n)^m\geq 1-e^{p^nm}
+$$
+where $p^nm=p^n\left\lfloor\frac{2^{n-1}}{n}\right\rfloor$, and for $n\geq 4$, $\left\lfloor\frac{2^{n-1}}{n}\right\rfloor\geq\frac{2^{n-1}}{2n}$
+
+\end{document}

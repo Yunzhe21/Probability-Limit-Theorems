@@ -1,0 +1,181 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[all]{xy}
+
+
+\usepackage{amsmath,amsthm,amssymb,color,latexsym}
+\usepackage{geometry}        
+\geometry{letterpaper}    
+\usepackage{graphicx}
+
+\newcommand{\legendre}[2]{\ensuremath{\left( \frac{#1}{#2} \right) }}
+\newtheorem{problem}{Problem}
+
+\newenvironment{solution}[1][\it{Solution}]{\textbf{#1. } }{$\square$}
+
+
+\begin{document}
+\noindent Probability Limit Theorems \hfill Assignment 3\\
+Yunzhe Zheng. (2025/11/09)
+
+\hrulefill
+
+\begin{problem}
+    (i). Let $(E, \mathcal{E}, \mu)$ be a measure space and let $f$ be a nonnegative measurable function with $\mu(f)<\infty$. Define $(f\mu)(A):=\mu(f\mathbf{1}_A)$, $A\in\mathcal{E}$. Prove that $f\mu$ is a measure on $\mathcal{E}$ and that, for all nonnegative measurable function $g$ on $E$, one has $\mu(fg)=(f\mu)(g)$. \\
+    \indent (ii). Let $\mathcal{A}$ be a $\pi$-system contained in $\mathcal{E}$ and generating $\mathcal{E}$. Prove that, for any integrable function $f$ (not necessary negative), 
+    $$
+        \mu(f\mathbf{1}_{A})=0\text{ for all }A\in\mathcal{A}\implies f=0 \text{ a.e.}
+    $$
+\end{problem}
+
+\textbf{Proof:} (i). $(f\mu)(A)\geq0$ since $f$ is nonnegative, and $(f\mu)(\emptyset)=0$ follows directly from the definition of Lebesgue integral. Now consider disjoint sequence $\{A_n\}_{n=1}^\infty$ in $\mathcal{E}$, and notice that $f\mathbf{1}_{\bigcup_{i=1}^n A_i}\uparrow f\textbf{1}_{\bigcup_{i=1}^\infty}A_i$, then by Monotone Convergence Theorem, 
+\begin{align*}
+    (f\mu)\left(\bigcup_{i=1}^\infty A_i\right):=\mu\left(f\mathbf{1}_{\bigcup_{i=1}^\infty}\right)=\uparrow\mu(f\mathbf{1}_{\bigcup_{i=1}^nA_i})=\lim_{n\to\infty}\sum_{i=1}^n\mu(f\mathbf{1}_{A_i})=\sum_{i=1}^\infty(f\mu)(A_i)
+\end{align*}
+Indeed a measure. Next we apply the Standard Machine. \\
+\indent \textbf{Case 1:} For $g=\mathbf{1}_{A}$ where $A\in\mathcal{E}$, 
+$$
+    \mu(f\mathbf{1}_{A})=(f\mu)(A)=(f\mu)(\mathbf{1}_A)
+$$
+\indent \textbf{Case 2:} By linearity, this holds for any simple function. \\
+\indent \textbf{Case 3:} Suppose that $g$ is a non-negative, measurable function. Define a sequence of functions as 
+$$
+    g_n:=(2^{-n}\lfloor2^ng\rfloor)\wedge n
+$$
+we have $g_n\uparrow g$, then by Monotone Convergence Theorem, $\mu(fg_n)\uparrow\mu(fg)$ and $(f\mu)(g_n)\uparrow(f\mu)(g)$, thus $\mu(fg)=(f\mu)(g)$. \\
+\indent (ii). Write $f=f^+-f^-$, where both $f^+$ and $f^-$ are non-negative, then by previous result, both $(f^+\mu)$ and $(f^-\mu)$ are measures on $\mathcal{E}$, then $\mu(f\textbf{1}_A)=0$ for all $A\in\mathcal{A}$ means that $(f^+\mu)(A)=(f^-\mu)(A)$ on $A\in\mathcal{A}$, then by uniqueness of extension theorem, $(f^+\mu)$ and $(f^-\mu)$ agrees on $\mathcal{E}$, thus 
+$$
+    \mu(f)=\mu(f\textbf{1}_{E})=\mu(f^+\textbf{1}_E)-\mu(f^-\textbf{1}_E)=0\implies f=0\text{ a.e.} 
+$$\qed
+\begin{problem}
+    (i). Let $f$ be a sequence of non-negative integrable functions on a measure space $(E, \mathcal{E}, \mu)$ and suppose that $f_n\to f$ a.e. where $f$ is integrable. Prove that 
+    $$
+        \mu(|f_n-f|)\to0\iff \mu(f_n)\to\mu(f) 
+    $$
+    \indent (ii). Let $f$ be a sequence of integrable functions on a measure space $(E, \mathcal{E}, \mu)$ and suppose that $f_n\to f$ a.e. where $f$ is integrable. Prove that 
+    $$
+        \mu(|f_n-f|)\to 0\iff\mu(f_n)\to\mu(f)
+    $$
+\end{problem}
+
+\textbf{Proof:} (i). By triangle inequality, it's immediate that $\mu(|f_n-f|)\to0$ implies that $\mu(f_n)\to\mu(f)$. Conversely, we write 
+$$
+    \mu(|f_n-f|)=\mu((f_n-f)^-)+\mu((f_n-f)^+)
+$$
+where $(f_n-f)^-\leq f$ since both $f_n$ and $f$ are non-negative, then by Dominated Convergence Theorem, $\mu((f_n-f)^-)\to0$ as $n\to\infty$. As for $\mu((f_n-f)^+)$, 
+$$
+    \mu((f_n-f)^+)=\mu(f_n)-\mu(f)+\mu((f_n-f)^-)\to 0
+$$
+by conclusion above and the assumption, concluding the proof. \\
+\indent (ii). Left to right implication is trivial as in (i). Conversely, we apply Fatou's Lemma on $|f_n|+|f|-|f_n-f|\geq 0$ by triangular inequality, 
+\begin{align*}
+    2\mu(|f|)&\overset{\text{a.e. conv.}}=\mu(\liminf_{n\to\infty}(|f|+|f_n|-|f_n-f|))\leq \liminf_{n\to\infty}\mu(|f|+|f_n|-|f_n-f|)\\
+    &\leq\liminf_{n\to\infty}\mu(|f|)+\liminf_{n\to\infty}\mu(|f_n|)-\limsup_{n\to\infty}\mu(|f_n-f|)
+\end{align*}
+then we have $\limsup_{n\to\infty}\mu(|f_n-f|)\leq 0$, thus $\limsup_{n\to\infty}\mu(|f_n-f|)=0$ and $\mu(|f_n-f|)\to0$ as $n\to\infty$ follows. \qed
+\\
+\begin{problem}
+    Let $(X_n)_{n\geq 1}$ be random variables in $\mathcal{L}^2(\Omega, \mathcal{F}, \mathbb{P})$ and define $S_n:=\sum\limits_{k=1}^n X_k$, $n\in\mathbb{N}$. Assume throughout that $\mathbb{E}[X_iX_j]=0$ for $i\neq j$. Show that the following statements are equivalent: \\
+    \indent (a). $S_n$ converges to $S$ in $\mathcal{L}^2$. \\
+    \indent (b). $\sum\limits_{n=1}^\infty\mathbb{E}[X_n^2]<\infty$. \\
+    \indent (c). There exists $S\in\mathcal{L}^2$ such that for all $n$, $\mathbb{E}[(S-S_n)^2]=\sum\limits_{k=n+1}^\infty\mathbb{E}[X_k^2]$.
+\end{problem}
+
+\textbf{Proof:} We prove in the following order $(a)\to(b)\to(c)\to(a)$. \\
+\indent $\textbf{(a)}\to\textbf{(b)}$: Since $\mathcal{L}^2$ is complete, for any $k\in\mathbb{N}$, there exists $N(k)\in\mathbb{N}$ such that for all $m>n\geq N(k)$, 
+$$
+    \mathbb{E}[(S_m-S_n)^2]=\mathbb{E}\left[\left(\sum_{i=n+1}^mX_i\right)^2\right]=\mathbb{E}\left[\sum_{i=n+1}^mX_i^2\right]<\frac{1}{2^k}
+$$
+thus 
+$$
+    \sum_{i=1}^\infty\mathbb{E}[X_n^2]\leq\sum_{i=1}^{N(1)}\mathbb{E}[X_i^2]+\sum_{i=1}^\infty\mathbb{E}[(S_{N(i+1)}-S_{N(i)})^2]<\infty
+$$
+\indent $\textbf{(b)}\to\textbf{(c)}$: Let $S:=\sum\limits_{i=1}^\infty X_i$, then $S\in\mathcal{L}^2$ by considering $S_n=\sum\limits_{i=1}^nX_i$, where 
+$$
+    \mathbb{E}[S^2]=\mathbb{E}\left[\lim_{n\to\infty}S_n^2\right]=\mathbb{E}\left[\lim_{n\to\infty}\left(\sum_{i=1}^nX_i\right)^2\right]=\mathbb{E}\left[\lim_{n\to\infty}\sum_{i=1}^nX_i^2\right]
+$$
+and by Series Convergence Theorem, 
+$$
+    \mathbb{E}[S^2]=\mathbb{E}\left[\lim_{n\to\infty}\sum_{i=1}^nX_i^2\right]=\sum_{i=1}^\infty\mathbb{E}[X_i^2]<\infty
+$$
+thus $S\in\mathcal{L}^2$. Further, for any $n$,
+$$
+    \mathbb{E}\left[(S-S_n)^2\right]=\mathbb{E}\left[\lim_{m\to\infty}\left(\sum_{i=n+1}^mX_i\right)^2\right]=\mathbb{E}\left[\sum_{i=n+1}^\infty X_i^2\right]=\sum_{i=n+1}^\infty\mathbb{E}[X_i^2]
+$$
+also by Series Convergence Theorem. \\
+\indent $\textbf{(c)}\to\textbf{(a)}$: By assumption, $\mathbb{E}[(S-S_0)^2]=\sum\limits_{k=1}^\infty\mathbb{E}[X_i^2]<\infty$ since $S\in\mathcal{L}^2$, then the tail term $\sum\limits_{k=n+1}^\infty\mathbb{E}[X_i^2]\to0$ as $n\to\infty$, which implies that $S_n$ converges $S$ in $\mathcal{L}^2$. \qed
+\\
+\begin{problem}
+    Let $\varphi: (a,b)\to\mathbb{R}$ be strictly convex, i.e. for all $x\neq y$ in $(a,b)$ and all $\lambda\in(0,1)$, 
+    $$
+        \varphi(\lambda x+(1-\lambda)y)<\lambda\varphi(x)+(1-\lambda)\varphi(y)
+    $$
+    Suppose that $\mathbb{P}(a<X<b)=1$, and that $\mathbb{E}[\varphi(X)]$ and $\varphi(\mathbb{E}(X))$ exist, with 
+    $$
+        \mathbb{E}[\varphi(X)]=\varphi(\mathbb{E}[X])
+    $$
+    Show that $X$ is constant a.s.
+\end{problem}
+
+\textbf{Proof:} We first notice that for fixed $m\in(a,b)$, there exists $a,b\in\mathbb{R}$ such that $\varphi(x)\geq ax+b$ for all $x\in(a,b)$, where the equality holds if and only if $x=m$. To show that, we only need to prove the equality part. Suppose that there exists $m=x_1\neq x_2$ such that $\varphi(x_1)=ax_1+b$ and $\varphi(x_2)=ax_2+b$, then for $y\in(x_1, x_2)$, write $y=\lambda x_1+(1-\lambda)x_2$ with $\lambda\in(0,1)$, 
+$$
+    \varphi(y)<\lambda(ax_1+b)+(1-\lambda)(ax_2+b)=a(\lambda x_1+(1-\lambda)x_2)+b=ay+b
+$$
+contradicting our choice of $a,b\in\mathbb{R}$. Now we choose $m=\mathbb{E}[X]$ and corresponding $a,b$, then 
+$$
+    \mathbb{E}[\varphi(X)]=\varphi(\mathbb{E}(X))=a\mathbb{E}[X]+b=\mathbb{E}[aX+b]\leq \mathbb{E}[\varphi(X)]
+$$
+so the last inequality must hold, which is equivalent to say $\mathbb{E}[aX+b]=\mathbb{E}[\varphi(X)]$, then by previous conclusion, $X$ must be constant a.e. \qed
+\\
+\begin{problem}
+    Let $X\geq 0$ be a random variable on a probability space $(\Omega, \mathcal{F}, \mathbb{P})$, and let $\mathcal{G}\subseteq\mathcal{F}$ be a sub-$\sigma$-algebra. Show that 
+    $$
+        \{X> 0\}\subseteq\{\mathbb{E}[X|\mathcal{G}]>0\}
+    $$
+    up to an event of probability zero. Show that $\{\mathbb{E}[X|\mathcal{G}]>0\}$ is actually the smallest $\mathcal{G}$-measurable event that contains the event $\{X>0\}$, up to null events.
+\end{problem}
+
+\textbf{Proof:} Let $W$ be a version of $\mathbb{E}[X|\mathcal{G}]$, then 
+$$
+    0\geq\mathbb{E}[W\textbf{1}_{\{W<0\}}]=\mathbb{E}[X\textbf{1}_{\{W<0\}}]\geq 0
+$$
+then $\mathbb{E}[W\textbf{1}_{\{W<0\}}]=0$, which means $W\geq 0$ a.e. Also, we see that 
+$$
+    0=\mathbb{E}[W\textbf{1}_{\{W=0\}}]=\mathbb{E}[X\textbf{1}_{\{W=0\}}]
+$$
+then $X\textbf{1}_{\{W=0\}}=0$ a.s. Given that $X>0$, we have $\mathbb{P}(W=0)=0$. Combining two facts, we obtain that $\{X>0\}\subseteq\{\mathbb{E}[X|\mathcal{G}]>0\}$ up to an event of probability zero. \\
+\indent Given that $A$ is a $\mathcal{G}$-measurable event such that $\{X>0\}\subseteq A$ up to an event of measure zero, then its sufficient to show that $\{\mathbb{E}[X|\mathcal{G}]>0\}\subseteq A$ up to an event of measure zero. Suppose that it is the opposite, which means that $\mathbb{P}(\{\mathbb{E}[X|\mathcal{G}]>0\}\cap A^c)>0$. We denote $\{\mathbb{E}[X|\mathcal{G}]>0\}\cap A^c$ by $H$, and $W$ is a version of $\mathbb{E}[X|\mathcal{G}]$, then 
+$$
+    \mathbb{E}[W\textbf{1}_{H}]=\mathbb{E}[X\textbf{1}_{H}]
+$$
+Since $A^c\cap\{X>0\}=\emptyset$, we must have $\mathbb{E}[X\textbf{1}_{H}]\leq0$. However, $\mathbb{E}[W\textbf{1}_{H}]<0$, which is absurd, implying that $\{\mathbb{E}[X|\mathcal{G}]>0\}\subseteq A$ up to an event of measure zero. \qed
+\\
+\begin{problem}
+    Suppose $X,Y\in\mathcal{L}^1(\Omega, \mathcal{F}, \mathbb{P})$ are real-valued and satisfy
+    $$
+        \mathbb{E}[X|Y]=Y \text{ a.s. and }\mathbb{E}[Y|X]=X\text{ a.s.}
+    $$
+    Prove that $\mathbb{P}(X=Y)=1$.
+\end{problem}
+\textbf{Proof:} In view of the Towering Property, we have for any $c\in\mathbb{R}$,
+$$
+    \mathbb{E}[\mathbb{E}[X|Y]\textbf{1}_{\{Y\leq c\}}]=\mathbb{E}[\mathbb{E}[X\textbf{1}_{\{Y\leq c\}}|Y]]=\mathbb{E}[X\textbf{1}_{\{Y\leq c\}}]=\mathbb{E}[Y\textbf{1}_{\{Y\leq c\}}]
+$$
+then 
+$$
+    \mathbb{E}[(X-Y)\textbf{1}_{\{Y\leq c\}}]=0
+$$
+Similarly, we have $\mathbb{E}[(X-Y)\textbf{1}_{\{X\leq c\}}]=0$. Since 
+\begin{align}
+    \mathbb{E}[(X-Y)\textbf{1}_{\{y\leq c\}}]=\mathbb{E}[(X-Y)\textbf{1}_{\{X\leq c,\ Y\leq c\}}]+\mathbb{E}[(X-Y)\textbf{1}_{\{X>c,\ Y\leq c\}}]=0
+\end{align}
+and 
+\begin{align}
+    \mathbb{E}[(X-Y)\textbf{1}_{\{X\leq c,\ Y\leq c\}}]+\mathbb{E}[(X-Y)\textbf{1}_{\{X\leq c,\ Y>c\}}]=0
+\end{align}
+Calculate $(1)-(2)$, we obtain that 
+$$
+    0\leq \mathbb{E}[(X-Y)\textbf{1}_{\{X>c,\ Y\leq c\}}]=\mathbb{E}[(X-Y)\textbf{1}_{\{X\leq c, \ Y>c\}}]\leq 0
+$$
+which means that $\mathbb{P}(X>c,\ Y\leq c)=\mathbb{P}(X\leq c,\ Y>c)=0$, then by the fact that $\{X>Y\}=\bigcup\limits_{c\in\mathbb{Q}}\{X>c,\ Y\leq c\}$, we have $\mathbb{P}(X>Y)\leq\sum\limits_{c\in\mathbb{Q}}\mathbb{P}(X>c,\ Y\leq c)=0$, and the same with $\mathbb{P}(X<Y)=0$, thus $\mathbb{P}(X=Y)=1$.\qed
+\end{document}
