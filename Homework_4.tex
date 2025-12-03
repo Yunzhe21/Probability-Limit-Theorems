@@ -1,0 +1,365 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[all]{xy}
+
+
+\usepackage{amsmath,amsthm,amssymb,color,latexsym}
+\usepackage{geometry}        
+\geometry{letterpaper}    
+\usepackage{graphicx}
+
+\newcommand{\legendre}[2]{\ensuremath{\left( \frac{#1}{#2} \right) }}
+\newtheorem{problem}{Problem}
+
+\newenvironment{solution}[1][\it{Solution}]{\textbf{#1. } }{$\square$}
+
+
+\begin{document}
+\noindent Probability Limit Theorems \hfill Assignment 4\\
+Yunzhe Zheng. (2025/12/03)
+
+\hrulefill
+\begin{problem}
+    (Tail sum formula and expected Stopping Time) \\
+    \indent (i). Let $X$ be a nonnegative integer-valued random variable. Show that 
+    $$
+        \mathbb{E}[X]=\sum\limits_{n=1}^\infty\mathbb{P}(X\geq n)
+    $$
+    \indent (ii). Suppose that $T$ is a stopping time such that, for some $N\in\mathbb{N}$ and $\epsilon>0$, we have for every $n\in\mathbb{N}$:
+    $$
+        \mathbb{P}(T\leq n+N|\mathcal{F}_n)>\epsilon \ \ a.s.
+    $$
+    Prove by induction that for all $k\in\mathbb{N}$
+    $$
+        \mathbb{P}(T>kN)\leq (1-\epsilon)^k
+    $$
+    Deduce, using part (i), that $\mathbb{E}[T]<\infty$.
+\end{problem}
+\textbf{Proof:} (i). Since probability measure is positive, 
+\begin{align*}
+    \mathbb{E}[X]=\sum_{n=1}^{\infty}n\mathbb{P}(X=n)&=(\mathbb{P}(X=1)+\mathbb{P}(X=2)+\dots) \\
+    &+ (\mathbb{P}(X=2)+\mathbb{P}(X=3)+\dots)+\dots \\
+    &=\sum_{n=1}^\infty\mathbb{P}(X\geq n)
+\end{align*}
+\indent (ii). First, $\mathbb{P}(T>0)\leq (1-\epsilon)^0=1$ is obvious. Now suppose that we have 
+$$
+    \mathbb{P}(T>kN)\leq (1-\epsilon)^k
+$$
+for some $k\geq 0$, then we wish to show that $\mathbb{P}(T>(k+1)N)=\mathbb{P}(T>kN+N)\leq (1-\epsilon)^{k+1}$. 
+\begin{align*}
+    \mathbb{P}(T>(k+1)N)=\mathbb{E}[\mathbf{1}_{\{T>(k+1)N\}}]&=\mathbb{E}[\mathbb{E}[\mathbf{1}_{\{T>(k+1)N\}}|\mathcal{F}_n]] \\
+    &=\mathbb{E}[\mathbb{P}(T>(k+1)N|\mathcal{F}_n)] \\
+    &=\mathbb{E}[\mathbf{1}_{\{T>kN\}}\mathbb{P}(T>(k+1)N|\mathcal{F}_n)] \\
+    &\leq (1-\epsilon)\mathbb{P}(T>kN)=(1-\epsilon)^{k+1}
+\end{align*} 
+Finally, using part (i), since $\sum_{n=kN+1}^{(k+1)N}\mathbb{P}(X\geq n)\leq N\mathbb{P}(X>kN)$
+$$
+    \mathbb{E}[X]=\sum\limits_{n=1}^\infty\mathbb{P}(X\geq n)\leq N\sum\limits_{k=1}^\infty\mathbb{P}(X\geq kN)\leq N\sum\limits_{k=1}^\infty (1-\epsilon)^k<\infty
+$$ \qed
+\begin{problem}
+    (Wald's Equation) Let $(X_n)_{n\in\mathbb{N}}$ be i.i.d. random variables with $\mathbb{E}[|X_1|]<\infty$ and let 
+    $$
+        S_n:= X_1+\dots+X_n
+    $$
+    If $T$ is a stopping time with respect to the natural filtration of $(X_n)_n$ and $\mathbb{E}[T]<\infty$, show that 
+    $$
+        \mathbb{E}[S_T]=\mathbb{E}[X_1]\mathbb{E}[T]
+    $$
+\end{problem}
+\textbf{Proof:} Denote $\mathbb{E}[X_i]=\mu$ and consider $\{S_n-\mu n\}_n$ which is a Martingale since
+$$
+    \mathbb{E}[S_{n+1}-\mu(n+1)|\mathcal{F}_n]=S_n-\mu n+\mathbb{E}[X_{n+1}-\mu|\mathcal{F}_n]=S_n-\mu n
+$$
+then $\{S_{n\wedge T}-\mu(n\wedge T)\}$ is a Martingale. Apply Doob's Optional Stopping Time Theorem with stopping time $T\wedge n$ bounded, we have $\mathbb{E}[S_{T\wedge n}-\mu(n\wedge T)]=\mathbb{E}[S_0-\mu0]=0$ for all $n$, then
+$$
+    \mathbb{E}[S_{T\wedge n}]=\mathbb{E}[X_1]\mathbb{E}[T\wedge n]
+$$
+where the right hand side goes to $\mathbb{E}[T]$ as $n\to\infty$ by Monotone Convergence Theorem. While the left hand side can be written as 
+$$
+    \mathbb{E}[S_{T\wedge n}]=\mathbb{E}\left[\sum_{k=1}^nX_{k}\mathbf{1}_{k\leq T}\right]\leq \sum_{k=1}^n\mathbb{E}\left[|X_k|\mathbf{1}_{k\leq T}\right]
+$$
+For $\mathbb{E}[|X_k|\mathbf{1}_{k\leq T}]$, notice that since $\mathbf{1}_{k\leq T}\in\mathcal{F}_{k-1}$, $|X_k|$ and $\mathbf{1}_{k\leq T}$ are independent, we then have $\mathbb{E}[|X_k|\mathbf{1}_{k\leq T}]=\mathbb{E}[|X_k|]\mathbb{E}[\mathbf{1}_{k\leq T}]=\mathbb{E}[|X_k|]\mathbb{P}(k\leq T)$, hence 
+$$
+    \mathbb{E}[S_{T\wedge n}]\leq \mathbb{E}[|X_1|]\sum_{k=1}^n\mathbb{P}(T\geq k)\leq \mathbb{E}[|X_1|]\mathbb{E}[T]
+$$
+By Dominated Convergence Theorem, $\mathbb{E}[S_{T\wedge n}]\to \mathbb{E}[S_T]$ as $n\to\infty$. In conclusion, we have 
+$$
+    \mathbb{E}[S_T]=\mathbb{E}[X_1]\mathbb{E}[T]
+$$
+as desired. \qed
+\\
+\begin{problem}
+    (Martingale formulation of Bellman's Optimality Principle) Your winnings per unit stake on a certain game are $\epsilon_n$ at time $n$, where $(\epsilon_n, n\in\mathbb{N})$ is an i.i.d. sequence of random variables with 
+    $$
+        \mathbb{P}(\epsilon_n=1)=p, \ \ \mathbb{P}(\epsilon_n=-1)=q
+    $$
+    where $1/2<p=1-q<1$. Let $\mathcal{F}_n:=\sigma(\epsilon_1, \cdots, \epsilon_n)$ be your history up to time $n$. Assume that your stake $C_n$ on game $n$ is $\mathcal{F}_{n-1}$ measurable, and that 
+    $$
+        0<C_n<Z_{n-1}
+    $$
+    where $Z_{n-1}$ is your fortune at time $n-1$. Your objective is to maximize the expected "interest rate" at horizon $N$, i.e. 
+    $$
+        \mathbb{E}[\log(Z_n/Z_0)]
+    $$
+    given the constant $Z_0>0$. \\
+    \indent (i). Prove that, if $Z_n>0$, 
+    $$
+        \mathbb{E}\left[\log\left(\frac{Z_{n+1}}{Z_n}\right)\big |\mathcal{F}_n\right]=f\left(\frac{C_{n+1}}{Z_n}\right)
+    $$
+    where $f(x)=p\log(1+x)+q\log(1-x)$. \\
+    \indent (ii). Deduce that, if $C$ is any previsible strategy, then 
+    $$
+        \log Z_n-n\alpha
+    $$
+    is a super-martingale, where $\alpha:=p\log p+q\log q+\log 2$. Conclude that 
+    $$
+        \mathbb{E}\left[\log\left(\frac{Z_N}{Z_0}\right)\right]\leq N\alpha
+    $$
+    Explicit the best strategy $(C_n)_{1\leq n\leq N}$ for which $\log Z_n-n\alpha$ becomes a martingale and the inequality becomes a equality.
+\end{problem}
+\textbf{Proof:} (i). Since by our configuration, we have $Z_{n+1}=Z_n+C_{n+1}\epsilon_{n+1}$, then
+\begin{align*}
+    \mathbb{E}\left[\log\left(\frac{Z_{n+1}}{Z_n}\right)\big|\mathcal{F}_n\right]=\mathbb{E}\left[\log\left(1+\frac{C_{n+1}}{Z_n}\epsilon_{n+1}\right)\big|\mathcal{F}_n\right]
+\end{align*}
+Since $\epsilon_{n+1}$ is independent of $\mathcal{F}_n$, we have 
+\begin{align*}
+    \mathbb{E}\left[\log\left(\frac{Z_{n+1}}{Z_n}\right)\big|\mathcal{F}_n\right]=\mathbb{E}\left[\log\left(1+\frac{C_{n+1}}{Z_n}\epsilon_{n+1}\right)\right]&=p\log\left(1+\frac{C_{n+1}}{Z_n}\right)+q\log\left(1-\frac{C_{n+1}}{Z_n}\right) \\
+    &=f\left(\frac{C_{n+1}}{Z_n}\right)
+\end{align*}
+\textbf{Remark:} We used without proof the following statement: Suppose we have $h(X,Y)$ where $X$ is $\mathcal{F}$-measurable, and $Y$ independent of $\mathcal{F}$, then $\mathbb{E}\left[h(X,Y)\vert \mathcal{F}\right]=\mathbb{E}[h(x,Y)]\big|_{x=X}$. We prove by utilizing the Standard Machine. \\
+\indent First, for $h(X,Y)=\mathbf{1}_{A}(X)\mathbf{1}_{B}(Y)$, $\mathbb{E}[h(X,Y)|\mathcal{F}]=\mathbf{1}_{A}(X)\mathbb{P}(Y\in B)=\mathbb{E}[h(x,Y)]\big\vert_{x=X}$, then by linearity, it holds for all simple functions. For general R.v. we apply Monotone convergence Theorem for conditional expectation on positive part and negative part of it respectively and obtain the result.  \\
+\indent (ii). Consider 
+\begin{align*}
+    \mathbb{E}[\log(Z_{n+1})-(n+1)\alpha|\mathcal{F}_n]&=\log(Z_n)-n\alpha+\mathbb{E}\left[\log\left(1+\frac{C_{n+1}}{Z_n}\epsilon_{n+1}\right)\big|\mathcal{F}_n\right] \\
+    &=\log(Z_n)-n\alpha+f\left(\frac{C_{n+1}}{Z_n}\right)-\alpha
+\end{align*}
+then it's sufficient to show that $f(x)-\alpha\leq0$ for $x\in(0,1)$, now since 
+$$
+    f'(x)=\frac{p}{x+1}-\frac{q}{1-x}
+$$
+then $f'(x)=0$ gives $x=2p-1\in (0,1)$, and $f(2p-1)=p\log p+q\log q+\log2=\alpha$. Calculate $f(0)$ and $f(1)$ we have $f(0)-\alpha\leq0$ and $f(1)-\alpha\leq 0$, then $f(x)-\alpha\leq 0$ on $(0,1)$, suggesting $\log Z_n-n\alpha$ is a super-martingale. \\
+\indent Next, by towering property we have 
+$$
+    \mathbb{E}[\log Z_{n+1}-(n+1)\alpha]\leq\mathbb{E}[\log Z_n-n\alpha]\implies \mathbb{E}[\log Z_{n+1}]\leq \mathbb{E}[\log Z_n]+\alpha
+$$
+thus by doing this recursively, we obtain 
+$$
+    \mathbb{E}\left[\log\left(\frac{Z_N}{Z_0}\right)\right]\leq N\alpha
+$$
+Finally, we've seen from previous calculation that $f(2p-1)=\alpha$. Notice that since $f''(x)=-\frac{p}{(x+1)^2}-\frac{q}{(1-x)^2}<0$, $2p-1$ is the only point satisfying such a relation. The best strategy such that $\log Z_n-n\alpha$ is a martingale is $C_{n+1}=(2p-1)Z_n$. \qed
+\\
+\begin{problem}
+    (Gambler's Ruin) Let $(X_n)_{n\in\mathbb{N}}$ be i.i.d. sequence with 
+    $$
+        \mathbb{P}(X_1=1)=p, \ \ \mathbb{P}(X_1=-1)=q, \ \ 0<p=1-q<1, \ p\neq q
+    $$
+    Suppose that $a,b$ are integers with $0<a<b$. Define 
+    $$
+        S_n=a+X_1+\dots+X_n, \ \ T:=\inf\{x\in\mathbb{N}: S_n=0\text{ or }S_n=b\}
+    $$
+    Let $\mathcal{F}_n=\sigma(X_1, \dots, X_n)$, $\mathcal{F}_0=\{\emptyset, \Omega\}$. \\
+    \indent (i). Explain why $T$ satisfies the conditions of Problem 1 (ii). \\
+    \indent (ii). Prove that 
+    $$
+        M_n:=\left(\frac{q}{p}\right)^{S_n}\text{ and } N_n:=S_n-n(p-q)
+    $$
+    are $(\mathcal{F}_n)_{n\in\mathbb{N}}$-adapted martingales. \\
+    \indent (iii). Deduce the values of $\mathbb{P}(S_T=0)$ and $\mathbb{E}[T]$.
+\end{problem}
+\textbf{Proof:} (i). Let $N$ in Problem 1 to be $b$, and denote $\delta=\min(p,q)$. Notice that for fixed $n$,
+$$
+    \mathbb{P}(T\leq n+b|\mathcal{F}_n)=\mathbb{P}(T\leq n+b|S_{n})
+$$
+and for $i=0, 1, \dots, b$, 
+$$
+    \mathbb{P}(T\leq n+b|S_n=i)\geq \delta^b=:\epsilon 
+$$
+then $T$ satisfies the condition with $N=b, \epsilon=\delta^b$. \\
+\indent (ii). Consider 
+\begin{align*}
+    \mathbb{E}[M_{n+1}|\mathcal{F}_n]=\mathbb{E}\left[\left(\frac{q}{p}\right)^{S_n+X_{n+1}}\big|\mathcal{F}_n\right]&=\left(\frac{q}{p}\right)^{S_n}\mathbb{E}\left[\left(\frac{q}{p}\right)^{X_{n+1}}\right] \\
+    &=\left(\frac{q}{p}\right)^{S_n}\left(p\cdot\frac{q}{p}+q\cdot\frac{p}{q}\right) \\
+    &=\left(\frac{q}{p}\right)^{S_n}=M_n
+\end{align*}
+Also, 
+\begin{align*}
+    \mathbb{E}[N_{n+1}|\mathcal{F}_n]&=\mathbb{E}[S_n-n(p-q)+X_{n+1}-(p-q)|\mathcal{F}_n] \\
+    &=S_n-n(p-q)+\mathbb{E}[X_{n+1}]-(p-q) \\
+    &= N_n+(p-q)-(p-q)=N_n
+\end{align*}
+Hence $M_n$ and $N_n$ are martingales. \\
+\indent (iii). Since $\mathbb{E}[T]<\infty$ from Problem 1, and, if we assume without loss of generality $q<p$, 
+$$
+    |M_{n+1}(\omega)-M_n(\omega)|=\left|\left(\frac{q}{p}\right)^{S_n}\left(\left(\frac{q}{p}\right)^{X_{n+1}}-1\right)\right|\leq K
+$$
+since $X_i$ can only take values in $\{0,1\}$. Then we may use Doob's Optional Stopping time Theorem on $M_n$ to have 
+$$
+    \mathbb{E}[M_T]=\mathbb{E}[M_0]=\left(\frac{q}{p}\right)^a
+$$
+then since $S_T$ only takes value in $0$ or $b$, 
+$$
+    \mathbb{P}(S_T=0)+ (1-\mathbb{P}(S_T=0))\left(\frac{q}{p}\right)^{b}=\left(\frac{q}{p}\right)^a
+$$
+thus 
+$$
+    \mathbb{P}(S_T=0)=\frac{\left(\frac{q}{p}\right)^a-\left(\frac{q}{p}\right)^b}{1-\left(\frac{q}{p}\right)^b}
+$$
+Similarly with $N_n$, where 
+$$
+    |N_{n+1}-N_n|=|S_{n+1}-(n+1)(p-q)-S_n+n(p-q)|=|X_{n+1}-(p-q)|
+$$
+which is clearly bounded, then 
+$$
+    \mathbb{E}[N_T]=\mathbb{E}[N_0]=a
+$$
+where
+\begin{align*}
+    \mathbb{E}[N_T]=\mathbb{E}[S_T]-(p-q)\mathbb{E}[T]=\mathbb{P}(S_T=b)\cdot b-(p-q)\mathbb{E}[T]
+\end{align*}
+then 
+$$
+    \mathbb{E}[T]=\frac{\left(1-\frac{\left(\frac{q}{p}\right)^a-\left(\frac{q}{p}\right)^b}{1-\left(\frac{q}{p}^b\right)}\right)\cdot b-a}{p-q}
+$$
+\qed
+\\
+\begin{problem}
+    (Discrete Dirichlet Problem) Let $(\Omega, \mathcal{F}, \mathbb{P})$ be a probability space. Let $D$ be a connected finite subset of $\mathbb{Z}^d$ ($d\geq 1$), where "connected" means: for all $x,y\in D$, there exist $x_1, \cdots, x_k$ in $D$ such that $x_1=x$, $x_k=y$ and $x_i\sim x_{i+1}$ for all $i$, where $x\sim y$ means $\|x-y\|_1=1$. \\
+    \indent Define the boundary 
+    $$
+        \partial D:=\{y\in\mathbb{Z}^d\setminus D: \exists x\in D \text{ with }x\sim y\}
+    $$
+    Let $(e_i)_{1\leq i\leq d}$ be a canonical basis of $\mathbb{R}^d$, and let $(I_n)_{n\in\mathbb{N}}$ be i.i.d. random variables taking values in $\mathbb{R}^d$ with 
+    $$
+        \mathbb{P}(I_n=e_i)=\mathbb{P}(I_n=-e_i)=\frac{1}{2d}, \ 1\leq i\leq d
+    $$
+    Define the symmetric random walk 
+    $$
+        X_n^x:= x+\sum_{i=1}^{n} I_i, \ n\in\mathbb{N}_0
+    $$
+    starting from $x$. Let $\mathcal{F}_n:= \sigma(I_1, \dots, I_n)$, $\mathcal{F}_0=\{\emptyset, \Omega\}$. For $x\in D$, define the exit time 
+    $$
+        T^x:=\inf\{n\geq0: X^x_n\in\partial D\}
+    $$
+    Let $f:\partial D\to\mathbb{R}$. For all $x\in D\cup\partial D$, define
+    $$
+        h(x)=\lim_{n\to\infty}\mathbb{E}[f(X^{x}_{T^x\wedge n})],
+    $$
+    with the convention $f|_D=0$. \\
+    \indent (i). Prove that $T^x$ is a stopping time. Using Problem 1 (ii), show that $\mathbb{E}[T^x]<\infty$ for all $x\in D$. Deduce that 
+    $$
+        h(x)=\mathbb{E}[f(X^x_{T^x})]
+    $$
+    \indent (ii). Fix $x\in D$. For all $z\in D$ and $y\sim x$, define
+    $$
+        A_z=\{(I_1, \dots, I_{n-1})\in(\mathbb{R}^d)^{n-1}: X_{T^y\wedge(n-1)}^y=z\}
+    $$
+    $$
+        B_z=\{(I_2, \dots, I_n)\in(\mathbb{R^d})^{n-1}:X_{T^x\wedge n}^x=z\text{ if }X_1^x=y\}.
+    $$
+    Show that $B_z=A_z$ for all $z\in D$. Deduce that, for all $y\sim x$, 
+    $$
+        \mathbb{E}[f(X_{T^x\wedge n}^x)|X_1^x=y]=\mathbb{E}[f(X_{T^y\wedge(n-1)}^y)]
+    $$
+    and hence $h$ is harmonic:
+    $$
+        h(x)=\frac{1}{2d}\sum_{y\sim x}h(y)
+    $$
+    \indent (iii). Prove that $h$ is the unique harmonic function $h: D\cup \partial D\to\mathbb{R}$ satisfying $h|_{\partial D}=f$.
+\end{problem}
+\textbf{Proof:} (i). Since $\{T^x\leq n\}=\bigcup\limits_{k=1}^n\{X_k^x\in \partial D\}\in\mathcal{F}_n$, given that $I_{k}$ is $\mathcal{F}_n$ measurable for $k\leq n$, and it is indeed a stopping time. Next, if we let $N=d(x,\partial D):=\max\limits_{y\in\partial D}(d(x,y))$ where $d(x,y):= \min(\#\{x_i\in D: x\text{ and }y\text{ are connected by }x_i\})$, then for fixed $n$,
+$$
+    \mathbb{P}(T^x\leq n+N|\mathcal{F}_n)=\mathbb{P}(T^x\leq n+N| X_n^x)
+$$
+if $X_n^x\in\partial D$, then clearly $\mathbb{P}(T\leq n+N|\mathcal{F}_n)=1$. Otherwise, 
+\begin{align*}
+    \mathbb{P}(T^x\leq n+N|\mathcal{F}_n)=\mathbb{P}(T^{X_n^x}\leq N|X_n^x)
+\end{align*}
+However, for each $x\in D$, $\mathbb{P}(T^x\leq N)\geq \left(\frac{1}{2d}\right)^N$, then condition in Problem 1 (ii) is satisfied with 
+$\epsilon=\left(\frac{1}{2d}\right)^N$, and we may deduce that $\mathbb{E}[T^x]<\infty$ for all $x\in D$. Finally, we write 
+$$
+    \mathbb{E}[f(X_{T^x\wedge n}^x)]=\mathbb{E}[f(X_{T^x}^x)\mathbf{1}_{\{T^x\leq n\}}]\leq\sum_{y\in\partial D}f(y)\mathbb{E}[T^x]
+$$
+the first equality holds because whenever $\omega\in\{T^x>n\}$, $X_{k}^x\notin \partial D$ for all $k\leq T^x$, and $f(X_{T^x\wedge n}^x)=0$. By Dominated Convergence Theorem, $\lim\limits_{n\to\infty}\mathbb{E}[f(X^x_{T^x\wedge n})]=\mathbb{E}[f(X^x_{T^x})]$ as desired. \\
+\indent (ii). We first notice that if $y\in \partial D$, then $X_{T^y\wedge (n-1)}^y=y=z$, however, $z\in D$, making $A_z=\emptyset$, and similar with $B_z$. Then we may work on the case of $y\in D$. For any $a=(I_1, \dots, I_{n-1})\in A_z$, consider the re-index $I'_{i+1}=I_i$ and $I''_{i+1}=I'_{i+1}$, we have 
+$$
+    y +\sum_{k=1}^{T^y\wedge(n-1)}I_k=x+I_1'+\sum_{k=2}^{T^y\wedge n}I_k'=x+\sum_{k=1}^{(T^x-1)\wedge n}I'_k=x+\sum_{k=2}^{T^x\wedge n}I''_k
+$$
+we have $(I_1, \dots, I_{n-1})\in B_z$. Conversely, the reasoning is the same by considering the same re-index, thus $B_z=A_z$. Then, we notice that from what we just proved, 
+$$
+    \mathbb{P}(X_{T^y\wedge(n-1)^y}=z)=\mathbb{P}(X_{T^x\wedge n}^x=z|X_1^x=y)
+$$
+for any $z$, then clearly
+$$
+    \mathbb{E}[f(X_{T^x\wedge n})|X_1^x=y]=\mathbb{E}[f(X_{T^y\wedge(n-1)}^y)]
+$$
+and since the there at first step there are $\frac{1}{2d}$ possibility to move to $y$ such that $y\sim x$, we have
+$$
+    h(x)=\mathbb{E}[f(X_{T^x}^x)]=\frac{1}{2d}\sum_{y\sim x}\mathbb{E}[f(X_{T^y\wedge(n-1)}^y)]=\frac{1}{2d}\sum_{y\sim x}h(y)
+$$ 
+\indent (iii). Suppose there exists harmonic $h$ and $h'$ such that it satisfies $h|_{\partial D}=f$ and $h|_{\partial D}=h'|_{\partial D}=f$, then consider $g=|h-h'|$ where $g|_{\partial D}=0$, which by definition is also harmonic. If there exists $x_0\in D$ such that $g(x_0)=\max_{x\in\overline{D}}(g(x))=c\neq0$, then 
+$$
+    g(x_0)=\frac{1}{2d}\sum_{y\sim x_0}g(y)= c
+$$
+the equality holds iff $g(y)=c$ for all $y\sim x$ since $c$ is the maximum value, then by the fact that $D$ is connected, we may conclude that $g(z)=c\neq 0$ for $z\in\partial D$, which is absurd. Hence the harmonic function $h$ is unique.\qed
+\\
+\begin{problem}
+    (Infinitely divisible distributions) The distribution of a random variable $X$ is called infinitely divisible if, for every positive integer $n$, there exists a sequence $(X_{n,k})_{1\leq k\leq n}$ of i.i.d. random variables such that $X$ and $\sum_{k=1}^n X_{n,k}$ have the same distribution. Moreover, for each $n$, let $Y_{n,k}$, $1\leq k\leq n$ be i.i.d. random variable and let $S_n=\sum_{k=1}^nY_{n,k}$. If $S_n\xrightarrow{\omega}Z$, then $Z$ is infinitely divisible. \\
+    \indent (i). We want to show that for all $\beta\in(0,2)$, the function
+    $$
+        \varphi(t)=e^{-|t|^\beta}
+    $$
+    is a characteristic function belonging to an infinitely divisible random variable.\\
+    \indent\indent (a). Let $X_1, X_2, \dots$ be i.i.d. random variables with 
+    $$
+        \mathbb{P}(X_1>x)=\mathbb{P}(X_1<-x)=\frac{x^{-\beta}}{2},\ \ \text{for all } x\geq 1
+    $$
+    Show that as $t\to 0$, 
+    $$
+        \varphi_{X_1}(t)=1-C|t|^\beta+o(|t|^\beta)\text{ for some } C\in(0,\infty)    
+    $$
+    \indent\indent (b). Using characteristic functions, analyze the weak convergence behavior of 
+    $$
+        n^{-1/\beta}\sum_{m=1}^n X_m
+    $$
+    \indent\indent (c). Deduce that, for all $\beta\in(0,2)$, the function $\varphi(t)=e^{-|t|^\beta}$ is a characteristic function of an infinitely divisible random variable.\\
+    \indent (ii). Let $\alpha>2$. Show that there is no random variable $X$ such that 
+    $$
+        \varphi_X(t)=e^{-|t|^\alpha}
+    $$
+\end{problem} (a). We can calculate the density function from distribution that $f(x)=\frac{\beta}{2}|x|^{-\beta-1}$ for $|x|\geq 1$, then
+$$
+    \varphi_{X_1}(t)=\mathbb{E}[e^{itx}]=\beta\int_{1}^\infty\cos(tx)x^{-\beta-1}dx
+$$
+by the fact that $f$ is even function. Then we do change of variable on $u=tx$ ($t>0$) and consider 
+$$
+    1-\varphi_{X_1}(t)=\beta\int_{1}^\infty(1-\cos(tx))x^{-\beta-1}dx 
+$$
+then 
+$$
+    1-\varphi_{X_1}(|t|)=\beta |t|^\beta\int_{|t|}^\infty(1-\cos(u))u^{-\beta-1}du
+$$
+Now consider the integral $I(t)=\int_{|t|}^\infty(1-\cos(u))u^{-\beta-1}du$. Integral at $\infty$ is convergent due to that fact that $(1-\cos(u))$ is uniformly bounded by 2, and $u^{-\beta-1}$ is integrable at $\infty$ for $\beta\in(0,2)$. For $|t|\to 0$, we may approximate $1-\cos(u)$ via Taylor expansion by $\frac{u^2}{2}+o(u^4)$, then $u^{1-\beta}+o(u^3-\beta)$ is integrable near zero. Finally, we may expand by continuity that 
+$$
+    \varphi_{X_1}(t)=1-C|t|^\beta+o(|t|^\beta)
+$$
+where $C=I(0)$. \\
+\indent (b). The characteristic function of $Z=n^{-1/\beta}\sum_{m=1}^nX_m$ is 
+$$
+    \varphi_{Z}(t)=\left(\varphi_{X_1}(n^{-1/\beta}t)\right)^{n}
+$$
+and when $n\to\infty$, $n^{-1/\beta}\to0$, then we use the approximation in (i) we have 
+$$
+    \varphi_{Z}(t)=\left(1-\frac{C|t|^\beta}{n}+o\left(\frac{1}{n}\right)\right)^n\to e^{-C|t|^\beta}
+$$
+then by Levy Convergence Theorem, it converges weakly to a distribution $F$ whose characteristic function is $e^{-C|t|^\beta}$. \\
+\indent (c). From (b) we've seen that $e^{-C|t|^\alpha}$ is a characteristic function, then by change of variable, $e^{|t|^\alpha}$ is a characteristic function. Then if we take $Y_{n,k}=n^{-1/\beta}X_k$, by conclusion of (b) we may deduce that $e^{|t|^\alpha}$ is a characteristic function of a infinitely divisible distribution. \\
+\indent (ii) We may calculate $\mathbb{E}[X^2]$ from the relation $\varphi_{X}^{(2)}(0)=-\mathbb{E}[X^2]$, we first calculate $\varphi_X'(t)$, 
+$$
+    \varphi_{X}'(0)=\lim_{t\to0}\frac{\varphi_X(t)-\varphi_X(0)}{t}=\lim_{t\to0}\frac{e^{|t|^\alpha}-1}{t}=\lim_{t\to0}\frac{|t|^\alpha+o(|t^{\alpha}|)}{t}=0
+$$
+Then for $\varphi^{(2)}_X(0)$, 
+$$
+    \varphi''_X(0)=\lim_{t\to0}\frac{\varphi_X'(t)-\varphi'_X(0)}{t}=\lim_{t\to\infty}\frac{\varphi_{X}'(t)}{t}=\lim_{t\to0}\frac{-\text{sign}(t)\cdot a\cdot|t|^{\alpha-1}e^{-|t|^\alpha}}{t}=0
+$$
+as $\alpha >2$. Thus $\mathbb{E}[X^2]=0$, implying that $X=0$ a.s. However, that will make $\varphi_X(t)\equiv 1$, contradicting the definition of $\varphi_X(t)$. \qed
+\end{document}
